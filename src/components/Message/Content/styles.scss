@@ -1,0 +1,20 @@
+.content{
+	margin-top: 64px;
+	overflow: hidden;
+}
+
+.link{
+	display: block;
+}
+.msg{
+	padding: 20px;
+	text-align: center;
+	font-size: 24px;
+}
+
+.oneline{
+	font-weight: bold;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

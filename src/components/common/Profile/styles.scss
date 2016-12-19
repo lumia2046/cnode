@@ -1,0 +1,47 @@
+.header{
+	text-align: center;
+	padding:  0 20px 20px;
+	img{
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+	}
+	p{
+		margin: 10px;
+	}
+}
+
+.boxs{
+	padding: 20px;
+	overflow: hidden;
+}
+
+.box{
+	float: left;
+	margin: 1.6%;
+	width: 30%;
+	/*padding: 0 20px 20px;*/
+	box-shadow: 0 0 5px grey;
+	background: white;
+	h2{
+		padding: 10px;
+	}
+}
+.title{
+	font-weight:bold;
+	padding: 5px 10px;
+	border-bottom: 1px solid grey;
+	text-align: left;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+}
+.link{
+	display: block;
+}
+@media only screen and (max-width: 768px) {
+    .box {
+        margin: 5%;
+        width: 90%;
+    }
+}

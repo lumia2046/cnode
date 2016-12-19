@@ -1,0 +1,20 @@
+.form{
+	text-align: center;
+	margin-top: 80px;
+}
+
+.errorInfo{
+	color: red;
+	margin: 5px;
+	overflow: hidden;
+	transition: all 0.3s;
+}
+
+.content{
+	margin: 10px;
+}
+.title{
+	position: relative;
+	top: -20px;
+	/*vertical-align: top;*/
+}

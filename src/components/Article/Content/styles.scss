@@ -1,0 +1,47 @@
+.head{
+	margin-top: 64px;
+	background: #ccc;
+	overflow: hidden;
+	padding: 10px;
+	img{
+		width: 50px;
+		height: 50px;
+		border-radius: 50px;
+	}
+}
+
+.imgbox{
+	float: left;
+	text-align: center;
+	margin-right: 10px;
+}
+.info{
+	height: 25px;
+	line-height: 25px;
+}
+.title{
+	text-align: center;
+	font-weight: bold;
+	font-size: 24px;
+	line-height: 32px;
+}
+.main{
+	padding: 20px;
+	p{
+		text-indent: 2em;
+	}
+	img{
+		display: block;
+		margin: 20px auto;
+		width: 600px;
+	}
+}
+
+@media (max-width: 750px){
+	.main{
+		img{
+			width: 80%;
+		}
+	}
+
+}
