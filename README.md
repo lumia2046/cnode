@@ -56,7 +56,7 @@
 
 - 对react组件及其生命周期有了更深入的了解
   - 如果需要在组件更新的生命周期里setState()，应该在componentWillReceiveProps(或者componentWillUpdate)里通过对this.props和newProps里面的属性做出准确判断后再去setState()，否则会导致组件更新死循环以致页面卡死
-  - 在组件的生命周期里调用dispatch发送不带异步的action时，每发送一个action都会更新一次store。但是在事件回调的方法里多次调用dispatch发送不带异步的action时，只会在最后一个action发送完毕才更新一次store，想要每次action都更新strore，那么必须手动将其封装为异步操作
+  - 在组件的生命周期里调用dispatch发送不带异步的action时，每发送一个action都会更新一次store。但是在事件回调的方法里多次调用dispatch发送不带异步的action时，只会在最后一个action发送完毕才更新一次store，想要每次action都更新store，那么必须手动将其封装为异步操作
   - 公共组件最好不要设置自己的状态，应该由父组件管理其状态
 
 - 对es6有了更深入的了解
