@@ -63,6 +63,7 @@
 - 对es6有了更深入的了解
   - 当采用es5写法时，React 自动将组件绑定给所有的事件回调方法中的this，这种自动绑定的行为只适用于当组件是用 React.createClass 创建时。如果用 ES6 的类来定义组件，那么事件方法中 this 的值就是 undefined，除非你自己显式绑定它
   - 为了省略es6中事件方法的绑定，可以将事件方法写成箭头函数的形式，这种写法在react文档中标注为es7+，eg: 把handleClick(){}写成handleClick = () => {}即可,但是react生命周期函数不支es7+这种写法
+  
   - 利用扩展运算符和对象的解构赋值极大的简化了react组件间props的传递的书写。eg:< Reply {...({login,dispatch,profile})} />只需这样，就可以把login,dispatch,profile三个变量当作props传递给Reply组件，需要注意的是解构对象本身时必须用括号括起来，否则解析器会把{}里的内容理解成一个代码块，而不是赋值语句
 
 - 对React技术栈有了深入的了解
