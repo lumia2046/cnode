@@ -1,34 +1,42 @@
 var path = require('path');
 var webpack = require('webpack');
-
 var autoprefixer = require('autoprefixer');
+var redBox = require('redbox-react');
+var plugins = [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ];
 
-var plugins = [];
-
-// 路径直接这样写比较好
-var outpath = './build'
-// var outpath = path.resolve(__dirname, 'build');
+// 开启服务器后不能用相对路径
+var outpath = path.resolve(__dirname, 'build');
 
 module.exports = {
 	devtool: 'eval',
-    devServer: {
-        proxy: {
-            "/api/*": {
-                target: "https://cnodejs.org",//后台服务器所在的地址
-                secure: false
-            }
-        },
-        contentBase: "./public",//本地服务器所加载的index.html所在的目录
-        colors: true,//终端中输出结果为彩色
-        historyApiFallback: true,//不跳转
-        port:3456,//dev-server所在的端口号
-        open:true,//编译时自动打开浏览器到dev-server所在的地址
-        inline: true,//实时刷新
-        // hot: true // 在package.json的script里命令里配置比较好
-        // 因为webpack-dev-server CLI(命令行Command Line Interface) 里面加入--hot
-        // 就能自动添加HotModuleReplacementPlugin，同时将服务转化为热加载形式
-    },
+	// 通过webpack-dev-server配置的服务器，无法进行热加载，每次修改js都会让页面刷新，不利于开发
+	// webpack-dev-server --progress --hot
+    // devServer: {
+    //     proxy: {
+    //         "/api/*": {
+    //             target: "https://cnodejs.org",//后台服务器所在的地址
+    //             secure: false
+    //         }
+    //     },
+    //     contentBase: "./public",//本地服务器所加载的index.html所在的目录
+    //     colors: true,//终端中输出结果为彩色
+    //     historyApiFallback: true,//不跳转
+    //     port:3456,//dev-server所在的端口号
+    //     open:true,//编译时自动打开浏览器到dev-server所在的地址
+    //     inline: true,//实时刷新
+    //     // hot: true // 在package.json的script里命令里配置比较好
+    //     // 因为webpack-dev-server CLI(命令行Command Line Interface) 里面加入--hot
+    //     // 就能自动添加HotModuleReplacementPlugin，同时将服务转化为热加载形式
+    // },
     entry: [
+        // necessary for hot reloading with IE:
+        'eventsource-polyfill',
+        // listen to code updates emitted by hot middleware:
+        'webpack-hot-middleware/client',
+        // your code:
         './src/index.js'
     ],
     output: {
@@ -71,7 +79,13 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.jsx'],
+        // alias里面设置的文件跟node_modules里面的文件等价，直接通过文件名导入，webpack就能找到相应文件。
+
+        alias: {
+        	  //当import 'redBoxBlackStyle' 时，webpack就会自动找根文件夹下面的redBoxBlackStyle.js
+              redBoxBlackStyle: path.join(__dirname, 'redBoxBlackStyle.js')
+            }
     },
     plugins: plugins,
     postcss: [autoprefixer]
