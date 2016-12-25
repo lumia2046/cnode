@@ -6,6 +6,9 @@
 var path = require('path');
 var webpack = require('webpack');
 var autoprefixer = require('autoprefixer');
+var ExtractTextPlugin = require('extract-text-webpack-plugin'); //css单独打包
+var HtmlWebpackPlugin = require('html-webpack-plugin'); //生成html
+
 var plugins = [
         // webpack中-p代表--optimize-minimize也就是压缩的意思,cli中progress代表显示编译进度
         // webpack -p压缩的时候不会去掉一些注释，所以在这里可以设置一下，进一步压缩文件
@@ -28,19 +31,32 @@ var plugins = [
          'process.env': {
             NODE_ENV: JSON.stringify('production')
           }
-        })
+        }),
+        new ExtractTextPlugin('[name]-[hash].css', {allChunks: true}), //css单独打包
+
+        new HtmlWebpackPlugin({ //根据模板插入css/js等生成最终HTML
+            filename: '../index.html', //生成的html存放路径，相对于 outpath
+            template: './build/template/index.html', //html模板路径
+            hash: true  //为静态资源生成hash值
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+        name: ['vendor'],
+        minChunks: Infinity
+        }),
+
     ];
-    
-var outpath = './build/production'
+
+var outpath = './build/production/assets/'
 
 module.exports = {
-    entry: [
-        './src/index.js'
-    ],
+    entry: {
+        app: './src/index.js',
+        vendor: ['react', 'react-dom','material-ui'/*等等其他的模块*/]
+    },
     output: {
         path: outpath,
-        publicPath: '/assets/',
-        filename: 'bundle.js'
+        publicPath: 'assets/',
+        filename: '[name]-[hash].js'
     },
     module: {
         loaders: [
@@ -57,7 +73,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 include: path.resolve(__dirname, 'src/styles'),
-                loader: 'style!css'
+                loader: ExtractTextPlugin.extract("style-loader","css-loader")
             },
             {
                 test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
