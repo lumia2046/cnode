@@ -10,7 +10,7 @@ module.exports = {
             bottom: '0px',
             right: '0px',
             width: '100%',
-            background: 'rgba(0, 0, 0, 0.8)',
+            background: 'rgba(0, 0, 0, 0.75)',
             color: 'red',
             zIndex: 9999,
             textAlign: 'left',
