@@ -184,7 +184,7 @@ class NeedComment extends Component{
 		const sHeight = pHeight ? pHeight : 0 
 		const style = pHeight ? {overflow:'hidden',minHeight:pHeight} : {overflow:'hidden',height:0}
 		// const tail = '<b>—— —— 来自lumia2046专版客户端</b>'
-		// const tail = '<p style="text-align:right">—— —— 来自lumia2046专版客户端</p>'
+		const tail = '<p style="text-align:right"><a href="https://github.com/lumia2046/cnode"> — — 来自lumia2046-react-cnode</a></p>'
 		if(login.loginId){
 			return (<div style={style} className={styles.textarea}>
 						<MuiThemeProvider>
@@ -197,7 +197,7 @@ class NeedComment extends Component{
 							/><br />
 							<RaisedButton label="回复" primary={true} onClick={e => {
 			    				e.preventDefault();
-			    				const textarea = this.refs.textarea.input.refs.input.value
+			    				const textarea = this.refs.textarea.input.refs.input.value + tail
 			    				if(!textarea.trim()){
 			    				  return null;
 			    				}
