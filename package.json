@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  	"clean": "rimraf build/production",
+    "clean": "rimraf build/production",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "start http://localhost:3456/ && node server",
+    "start": "node server",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.production.config.js --progress -p",
     "build": "npm run clean && npm run build:webpack"
   },
@@ -49,6 +49,7 @@
     "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.24.1",
     "node-sass": "^3.9.3",
+    "open": "0.0.5",
     "postcss-loader": "^0.13.0",
     "postcss-scss": "^0.3.0",
     "react-transform-catch-errors": "^1.0.2",
