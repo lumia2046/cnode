@@ -1,9 +1,8 @@
 .header{
 	position: fixed;
-	top: 0;
 	width: 100%;
 	z-index: 10;
-	animation: animations 0.5s;
+	// animation: animations 0.5s;
 	transform-origin: 0% 0%;
 	
 }
@@ -12,8 +11,8 @@
 	padding-right: 30px;
 	text-align: center;
 }
-@keyframes animations{
-	0%{top: -100%}
-	100%{top: 0px}
-}
+// @keyframes animations{
+// 	0%{top: -100%}
+// 	100%{top: 0px}
+// }
 

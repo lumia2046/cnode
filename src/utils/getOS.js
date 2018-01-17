@@ -1,0 +1,1 @@
+export const os = 'win32'

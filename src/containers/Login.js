@@ -46,7 +46,7 @@ class Login extends Component {
     return (
       <div>
         <Header isFetching={profile.loginname?false:true} title='个人中心' showBack={false}/>
-        <div style={{textAlign:'center',marginTop:100}}>
+        <div style={{textAlign:'center',paddingTop:100}}>
           {!masterInfo && !succeed && 
             <MuiThemeProvider>
               <div>

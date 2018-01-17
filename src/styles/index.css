@@ -41,3 +41,112 @@ a:hover,a:link,a:visited,a:active{
     0%{opacity:0;}
     100%{opacity:1;}
 }
+
+
+/* .move-appear {
+  transform: scale(0.5);
+  background: grey;
+}
+
+.move-appear.move-appear-active {
+  transform: scale(1);
+  background: grey;
+  transition: 60s;
+} */
+
+.move-enter {
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  background: white;
+  top: 0;
+  left: 100%;
+  
+}
+
+.move-enter.move-enter-active {
+  left: 0%;
+  transition: 0.5s;
+}
+
+.move-exit {
+  position: absolute;
+  z-index: 50;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  background: white;
+  top: 0;
+  left: 0;
+}
+
+.move-exit.move-exit-active {
+  opacity: 0.5;
+  left: -50%;
+  transition: 0.5s;
+}
+
+.left-enter {
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  background: white;
+  top: 0;
+  left: 0;
+  
+}
+
+.left-enter.left-enter-active {
+  left: 0;
+
+}
+
+.left-exit {
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  background: white;
+  top: 0;
+  left: 0;
+}
+
+.left-exit.left-exit-active {
+  left: 100%;
+  transition: 0.5s;
+}
+
+
+
+.up-enter {
+  position: absolute;
+  z-index: 10000;
+  width: 100%;
+  height: 100%;
+  background: white;
+  top: 100%;
+  left: 0;
+  
+}
+
+.up-enter.up-enter-active {
+  top: 0;
+  transition: 0.5s;
+}
+
+.up-exit {
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  background: white;
+  top: 0;
+  left: 0;
+  
+}
+
+.up-exit.up-exit-active {
+
+}

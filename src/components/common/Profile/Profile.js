@@ -1,7 +1,8 @@
 import React from 'react'
-import {Link} from 'react-router'
+import {Link} from 'react-router-dom'
 import prefix from '../../../utils/routePrefix'
 import styles from './styles.scss'
+import { setTransition } from '../../../actions/hashUrl'
 import transformDate from '../../../utils/transformDate'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Avatar from 'material-ui/Avatar';
@@ -65,6 +66,7 @@ const TopicList = props => {
 		    {topics.length > 0 && 
 				topics.map((topic,index) => 
 					<Link key={index} to={`${prefix}/topic/${topic.id}`} className={styles.link} onClick={() => {
+						dispatch(setTransition({ transition: 'move' }))
 					  if(!article[topic.id]){
 					    dispatch(fetchArticle(topic.id))
 					  }else if(article.currentTopicId !== topic.id){

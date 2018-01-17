@@ -1,13 +1,18 @@
 import {
-  GET_COLLECTED_TOPICS
+	GET_COLLECTED_TOPICS
 } from '../actions'
 
-const collectedTopics = (state={success:false},action) => {
-	switch (action.type){
+const initState = sessionStorage.getItem('store') ? JSON.parse(sessionStorage.getItem('store')).collectedTopics : {
+	success: false
+}
+
+
+const collectedTopics = (state = initState, action) => {
+	switch (action.type) {
 		case GET_COLLECTED_TOPICS:
-		return {...state,success:action.success,data:action.data,userName:action.userName}
-		default :
-		return state
+			return { ...state, success: action.success, data: action.data, userName: action.userName }
+		default:
+			return state
 	}
 }
 

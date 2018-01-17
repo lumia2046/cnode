@@ -33,7 +33,10 @@
 
 ## 生产项目
 ```
-  npm run build(项目生成在./build/production)
+  windows下
+  npm run build-win
+  linux、mac下
+  npm run build-win
 ```
 
 ## 状态树
@@ -72,3 +75,9 @@
 - 使用了模块化编程后，页面整体逻辑变得清晰很多，每个模块里的css和js都只负责管理一个对应的组件。尤其是用了css这一块，用css-loader开启CSS-Modules后，就再也不用为类名的语义化和重复去烦恼
 
 
+## v2.0 更新
+- 使用react-route v4 和 react原生的react-transition-group来实现切换动画
+- 升级webpack 3.0并重新配置webpack.json
+- 所有依赖均升级成最新版本
+
+##谢谢大家的关注，以后还会抽空更新。。。

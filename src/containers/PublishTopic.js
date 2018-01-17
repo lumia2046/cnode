@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import {Link} from 'react-router'
+import {Link} from 'react-router-dom'
 import prefix from '../utils/routePrefix'
 import {fetchArticle,fetchPublishTopic} from '../actions'
 import Header from '../components/common/Header/Header'
@@ -59,7 +59,7 @@ class PublishTopic extends Component {
     return (
       <div>
         <Header title='发布新话题'/>
-        <div style={{marginTop:100}}>
+        <div style={{paddingTop:100}}>
           {login.succeed && <Form {...({ifTitleErr,ifContentErr,showDialog,fetchPublishTopic,dispatch,login,state})}/>}
           {!login.succeed && <LinkToLogin dispatch={dispatch}/>}
         </div>

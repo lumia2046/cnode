@@ -14,7 +14,7 @@ const selectedTab = (state, action) => {
 }
 
 // 当组件第一次发出REQUEST_TOPICS后，需要对其返回的state进行初始化，否则没有topics等属性会报错
-function tabDataItem (state = {isFetching:false,page:0,scrollT:0,topics:[]}, action) {
+function tabDataItem(state = { isFetching: false, page: 0, scrollT: 0, topics: [] }, action) {
   switch (action.type) {
     case REQUEST_TOPICS:
       return {
@@ -22,28 +22,28 @@ function tabDataItem (state = {isFetching:false,page:0,scrollT:0,topics:[]}, act
         isFetching: true
       }
     case RECEIVE_TOPICS:
-      if(state.page < action.page){
+      if (state.page < action.page) {
         let topics = state.topics
         action.topics = topics.concat(action.topics)
       }
       return {
         ...state,
         isFetching: false,
-        page:action.page,
-        topics:action.topics,
-        limit:action.limit
+        page: action.page,
+        topics: action.topics,
+        limit: action.limit
       }
     case RECORD_SCROLLT:
-    return {
-      ...state,
-      scrollT:action.scrollT
-    }
+      return {
+        ...state,
+        scrollT: action.scrollT
+      }
     default:
       return state
   }
 }
 
-const tabData = (state = { }, action) => {
+const tabData = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_TOPICS:
     case REQUEST_TOPICS:
@@ -57,15 +57,19 @@ const tabData = (state = { }, action) => {
   }
 }
 
-const homePage = (state={selectedTab:'all',tabData:{}},action) => {
-  if(state){
-  	const sTab = selectedTab(state.selectedTab,action);
-  	const tData = tabData(state.tabData,action);
-  	// 返回的一定要是一个新的对象，如果只是改变原来的state,返回的还是原来的state对象,就无法被store.subscribe监听到，从而不会对组件状态进行更新
-  	return {...state, selectedTab:sTab,tabData:tData}
+const initState = sessionStorage.getItem('store') ? JSON.parse(sessionStorage.getItem('store')).homePage : {
+  selectedTab: 'all', tabData: {}
+}
+
+const homePage = (state = initState, action) => {
+  if (state) {
+    const sTab = selectedTab(state.selectedTab, action);
+    const tData = tabData(state.tabData, action);
+    // 返回的一定要是一个新的对象，如果只是改变原来的state,返回的还是原来的state对象,就无法被store.subscribe监听到，从而不会对组件状态进行更新
+    return { ...state, selectedTab: sTab, tabData: tData }
   }
   return state
-  
+
 }
 
 export default homePage;

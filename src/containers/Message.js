@@ -21,7 +21,7 @@ class Message extends Component {
       <div>
             <div>
               <Header  title='详情'/>
-              <div style={{marginTop:64}}>
+              <div style={{paddingTop:64}}>
                 {login.succeed && <Content {...message} {...({dispatch,fetchArticle,article,login})}/>}
                 {!login.succeed && <LinkToLogin dispatch={dispatch}/>}
               </div>

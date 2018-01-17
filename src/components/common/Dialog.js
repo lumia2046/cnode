@@ -1,5 +1,5 @@
 import React from 'react';
-import { hashHistory,browserHistory } from 'react-router';
+// import { hashHistory,browserHistory } from 'react-router';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -12,8 +12,10 @@ const DialogExample = (props) => {
   const handleJump = () => {
     props.close()
     if(props.link){
-      hashHistory.push(props.link)
+      // hashHistory.push(props.link)
       // browserHistory.push(props.link)
+      // pros.location = props.link
+      alert('a')
     }
     if(props.action){
       props.action()

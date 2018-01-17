@@ -1,7 +1,9 @@
 import React, { PropTypes,Component } from 'react'
-import {Link} from 'react-router'
+import {Link} from 'react-router-dom'
+import { connect } from 'react-redux'
 import prefix from '../../../utils/routePrefix'
 import styles from './styles.scss'
+import { setTransition } from '../../../actions/hashUrl'
 import {fetchComment,fetchArticle,recordArticleScrollT,switchSupport,fetchProfile} from '../../../actions'
 import transformDate from '../../../utils/transformDate'
 import getSize from '../../../utils/getSize'
@@ -14,6 +16,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
+@connect()
 class Reply extends Component {
 	constructor(){
 		super();
@@ -98,6 +101,7 @@ class Reply extends Component {
 			      					<div className={styles.main}>
 			      						<div className={styles.item}>
 			      							<Link to={`${prefix}/profile`} onClick={e => {
+												  this.props.dispatch(setTransition({ transition: 'move' }))
 			      								if(profile.loginname !== reply.author.loginname){
 			      									dispatch(fetchProfile(reply.author.loginname))
 			      								}
