@@ -26,7 +26,6 @@
 ```
   git clone https://github.com/lumia2046/cnode.git
   cd cnode
-  npm install webpack-dev-server webpack -g (没有安装webpack的需要安装)
   npm install
   npm start
 ```
@@ -50,11 +49,6 @@
 - `publishTopic`对应发表主题页面，包括主题是否发送成功等状态
 - `message`对应登陆账号的消息界面，还包括了未读消息是否被标记已读等状态
 
-
-## TODO
-- 增加react-router过渡动画
-- 优化页面性能
-
 ## 总结
 
 - 对react组件及其生命周期有了更深入的了解
@@ -76,8 +70,7 @@
 
 
 ## v2.0 更新
-- 使用react-route v4 和 react原生的react-transition-group来实现切换动画
-- 升级webpack 3.0并重新配置webpack.json
-- 所有依赖均升级成最新版本
+- 使用react-route v4 和 react原生的react-transition-group v2 来实现切换动画
+- 所有依赖均升级到最新版本
 
 ##谢谢大家的关注，以后还会抽空更新。。。

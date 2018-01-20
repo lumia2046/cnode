@@ -43,18 +43,18 @@ var plugins = [
 var app = ['./index.js']
 
 if (isPro) {
-    // plugins.push(
-    //     new webpack.optimize.UglifyJsPlugin({
-    //         sourceMap: true,
-    //         comments: false,
-    //         compress: {
-    //             warnings: false,
-    //             // 去掉debugger和console
-    //             drop_debugger: true,
-    //             drop_console: true
-    //         }
-    //     })
-    // )
+    plugins.push(
+        new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
+            comments: false,
+            compress: {
+                warnings: false,
+                // 去掉debugger和console
+                drop_debugger: true,
+                drop_console: true
+            }
+        })
+    )
 } else {
     app.unshift('react-hot-loader/patch', 'webpack-dev-server/client?http://' + host + ':' + port, 'webpack/hot/only-dev-server')
     plugins.push(

@@ -94,19 +94,6 @@ class Routes extends Component {
             <Router path={`${prefix}/`} history={history}>
                 <Route render={({ location }) => (
                     <div style={{ position: 'relative', height: getSize().windowH, width: '100%', overflow: this.state.overflow || 'visible' }}>
-                        {/* <TransitionGroup>
-                                <CSSTransition classNames={this.props.store.hashUrl.transition} timeout={20000} key={`${window.location.href.split('/#/')[1]}`}>
-                                    <Switch location={location}>
-                                        <Route location={location} exact path='/' render={() => <Redirect to='/home' />} />
-                                        <Route location={location} path='/home' render={() => <HomePage />} />
-                                        <Route location={location} path='/topic/:id' render={() => <Article />} />
-                                        <Route location={location} path='/message' render={() => <Message />} />
-                                        <Route location={location} path='/login' render={() => <Login />} />
-                                        <Route location={location} path='/profile' render={() => <Profile />} />
-                                        <Route location={location} path='/publishTopic' render={() => <PublishTopic />} />
-                                    </Switch>
-                                </CSSTransition>
-                        </TransitionGroup> */}
                         <TransitionGroup>
                             <Transition timeout={500} key={location.pathname}
                                 onEnter={() =>  this.enterCN = `${this.transition}-enter` }
@@ -119,13 +106,13 @@ class Routes extends Component {
                                 {(status) => (
                                     <div className={status.includes('enter') ? this.enterCN : this.exitCN} >
                                         <Switch location={location}>
-                                            <Route location={location} exact path='/' render={() => <Redirect to='/home' />} />
-                                            <Route location={location} path='/home' render={() => <HomePage />} />
-                                            <Route location={location} path='/topic/:id' render={() => <Article />} />
-                                            <Route location={location} path='/message' render={() => <Message />} />
-                                            <Route location={location} path='/login' render={() => <Login />} />
-                                            <Route location={location} path='/profile' render={() => <Profile />} />
-                                            <Route location={location} path='/publishTopic' render={() => <PublishTopic />} />
+                                            <Route exact path='/' render={() => <Redirect to='/home' />} />
+                                            <Route path='/home' render={() => <HomePage />} />
+                                            <Route path='/topic/:id' render={() => <Article />} />
+                                            <Route path='/message' render={() => <Message />} />
+                                            <Route path='/login' render={() => <Login />} />
+                                            <Route path='/profile' render={() => <Profile />} />
+                                            <Route path='/publishTopic' render={() => <PublishTopic />} />
                                         </Switch>
                                     </div>
                                 )}
