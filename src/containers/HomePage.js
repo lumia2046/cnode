@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { selectTab, fetchTopics, recordScrollT, fetchArticle, fetchAccess, fetchMessage } from '../actions'
 import Header from '../components/HomePage/Header/Header'
 import FloatingActionButton from '../components/HomePage/FloatingActionButton'
@@ -11,6 +12,15 @@ import getSize from '../utils/getSize'
 import { setTransition } from '../actions/hashUrl'
 import Pull from '../components/common/react-pullrefresh'
 
+// @withRouter
+@connect(state => {
+  const { homePage, article, login, profile, message } = state;
+  const { selectedTab, tabData } = homePage;
+  const unreadMessageCount = message.hasNotReadMessage.length
+  // 当组件第一次render时,还未进行任何action,初始化的state里没有tabData[selectedTab]，所以这里需要初始化
+  const { isFetching, page, scrollT, topics } = tabData[selectedTab] || { isFetching: false, page: 0, scrollT: 0, topics: [] }
+  return { isFetching, page, scrollT, topics, selectedTab, article, login, profile, tabData, unreadMessageCount }
+})
 class HomePage extends Component {
   constructor() {
     super()
@@ -147,7 +157,7 @@ class HomePage extends Component {
   render() {
     const { selectedTab, isFetching, page, topics, dispatch, article, currentRouter, login, profile, unreadMessageCount, tabData } = this.props;
     return (
-      <div style={{width:'100%',overflowX:'hidden'}}>
+      <div style={{ width: '100%', overflowX: 'hidden' }}>
         <Header filter={selectedTab} onClick={this.handleClick} toggleDrawer={this.toggleDrawer}
           fixedTop={this.state.fixedTop} unreadMessageCount={unreadMessageCount} tabs={this.tabs}>
           {this.tabs.map((tab, index) =>
@@ -250,17 +260,6 @@ class HomePage extends Component {
 }
 
 
-
-
-function mapStateToProps(state) {
-  const { homePage, article, login, profile, message } = state;
-  const { selectedTab, tabData } = homePage;
-  const unreadMessageCount = message.hasNotReadMessage.length
-  // 当组件第一次render时,还未进行任何action,初始化的state里没有tabData[selectedTab]，所以这里需要初始化
-  const { isFetching, page, scrollT, topics } = tabData[selectedTab] || { isFetching: false, page: 0, scrollT: 0, topics: [] }
-  return { isFetching, page, scrollT, topics, selectedTab, article, login, profile, tabData, unreadMessageCount }
-}
-
 // 用connect方法连接HomePage组件，实际上是在HomePage组件上加上了Connect(HomePage)这个父组件，HomePage里有关Connect的state变化的props就是通过mapStateToProps设置的
 // connect方法的第二个参数如果不传的话就会默认将store.dispatch默认作为了dispatch参数传进HomePage的props，所以HomePage的props里就有一个dispatch
-export default connect(mapStateToProps)(HomePage)
+export default HomePage
