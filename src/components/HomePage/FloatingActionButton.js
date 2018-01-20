@@ -19,11 +19,7 @@ class FloatActionButton extends React.Component {
     return (
       <Link to={`${prefix}/publishTopic`} onClick={() => this.props.dispatch(setTransition({ transition: 'up' }))}>
         <MuiThemeProvider>
-          <FloatingActionButton style={style} secondary={true}
-            onMouseEnter={() => this.props.dispatch(setTransition({ transition: 'none' }))}
-            onTouchStart={() => {
-              this.props.dispatch(setTransition({ transition: 'none' }))
-            }}>
+          <FloatingActionButton style={style} secondary={true}>
             <ContentAdd />
           </FloatingActionButton>
         </MuiThemeProvider>

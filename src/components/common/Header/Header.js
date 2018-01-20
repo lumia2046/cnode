@@ -19,7 +19,7 @@ class Header extends Component {
 		const { isFetching, title, history, hashUrl } = this.props
 		console.log(this.props.history)
 		return (
-			<div className={styles.header} style={{ width: window.width }}>
+			<div className={styles.header} style={{ width: window.width || '100%' }}>
 				<MuiThemeProvider>
 					<AppBar
 						title={<p className={styles.title}>

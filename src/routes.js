@@ -14,8 +14,7 @@ import getSize from './utils/getSize'
 import { setHashUrl, setTransition } from './actions/hashUrl'
 // import { clearUserInfo } from './actions/login'
 import { clearError } from './actions/fetchError'
-import Transition from 'react-transition-group/Transition'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { CSSTransition, TransitionGroup, Transition } from 'react-transition-group'
 const history = createHistory()
 
 
@@ -71,7 +70,8 @@ class Routes extends Component {
         }
         window.addEventListener('hashchange', this.hashChange)
         // 由于头部组件fix定位，在路由切换时，width:100%在手机上的判定会有问题，暂时采取全局变量储存页面加载时的宽度
-        window.width = getSize().windowW
+        // window.width = document.getElementById('root').offsetWidth
+        // console.log('****************',document.getElementById('root').offsetWidth)
     }
 
     saveState = () => {
@@ -82,28 +82,54 @@ class Routes extends Component {
 
 
     componentWillUpdate(nextProps) {
-        if (this.props.store.hashUrl.oldUrl == nextProps.store.hashUrl.currentUrl) {
-            this.props.dispatch(setTransition({ transition: 'left' }))
-        }
+        // if (this.props.store.hashUrl.oldUrl == nextProps.store.hashUrl.currentUrl) {
+        //     this.props.dispatch(setTransition({ transition: 'left' }))
+        // }
     }
 
     render() {
+        this.transition = this.props.store.hashUrl.transition
+        // let transition = this.props.store.hashUrl.transition
         return (
             <Router path={`${prefix}/`} history={history}>
                 <Route render={({ location }) => (
                     <div style={{ position: 'relative', height: getSize().windowH, width: '100%', overflow: this.state.overflow || 'visible' }}>
+                        {/* <TransitionGroup>
+                                <CSSTransition classNames={this.props.store.hashUrl.transition} timeout={20000} key={`${window.location.href.split('/#/')[1]}`}>
+                                    <Switch location={location}>
+                                        <Route location={location} exact path='/' render={() => <Redirect to='/home' />} />
+                                        <Route location={location} path='/home' render={() => <HomePage />} />
+                                        <Route location={location} path='/topic/:id' render={() => <Article />} />
+                                        <Route location={location} path='/message' render={() => <Message />} />
+                                        <Route location={location} path='/login' render={() => <Login />} />
+                                        <Route location={location} path='/profile' render={() => <Profile />} />
+                                        <Route location={location} path='/publishTopic' render={() => <PublishTopic />} />
+                                    </Switch>
+                                </CSSTransition>
+                        </TransitionGroup> */}
                         <TransitionGroup>
-                            <CSSTransition key={`${window.location.href.split('/#/')[1]}`} timeout={500} classNames={this.props.store.hashUrl.transition} >
-                                <Switch location={location}>
-                                    <Route location={location} exact path='/' render={() => <Redirect to='/home' />} />
-                                    <Route location={location} path='/home' render={() => <HomePage />} />
-                                    <Route location={location} path='/topic/:id' render={() => <Article />} />
-                                    <Route location={location} path='/message' render={() => <Message />} />
-                                    <Route location={location} path='/login' render={() => <Login />} />
-                                    <Route location={location} path='/profile' render={() => <Profile />} />
-                                    <Route location={location} path='/publishTopic' render={() => <PublishTopic />} />
-                                </Switch>
-                            </CSSTransition>
+                            <Transition timeout={500} key={location.pathname}
+                                onEnter={() =>  this.enterCN = `${this.transition}-enter` }
+                                onEntering={() =>  this.enterCN = `${this.transition}-enter ${this.transition}-enter-active`}
+                                onEntered={() => this.enterCN = `` }
+                                onExit={() => this.exitCN = `${this.transition}-exit`}
+                                onExiting={() => this.exitCN = `${this.transition}-exit ${this.transition}-exit-active`}
+                                onExited={() => this.exitCN = ``}
+                            >
+                                {(status) => (
+                                    <div className={status.includes('enter') ? this.enterCN : this.exitCN} >
+                                        <Switch location={location}>
+                                            <Route location={location} exact path='/' render={() => <Redirect to='/home' />} />
+                                            <Route location={location} path='/home' render={() => <HomePage />} />
+                                            <Route location={location} path='/topic/:id' render={() => <Article />} />
+                                            <Route location={location} path='/message' render={() => <Message />} />
+                                            <Route location={location} path='/login' render={() => <Login />} />
+                                            <Route location={location} path='/profile' render={() => <Profile />} />
+                                            <Route location={location} path='/publishTopic' render={() => <PublishTopic />} />
+                                        </Switch>
+                                    </div>
+                                )}
+                            </Transition>
                         </TransitionGroup>
                     </div>
                 )} />

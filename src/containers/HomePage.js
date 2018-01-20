@@ -93,7 +93,6 @@ class HomePage extends Component {
     }
   }
   toggleDrawer = () => {
-    this.props.dispatch(setTransition({ transition: 'none' }))
     this.setState({
       openDrawer: !this.state.openDrawer
     })
@@ -148,7 +147,7 @@ class HomePage extends Component {
   render() {
     const { selectedTab, isFetching, page, topics, dispatch, article, currentRouter, login, profile, unreadMessageCount, tabData } = this.props;
     return (
-      <div className={this.state.fadeIn ? 'fade-in' : ''}  style={{width:'100%',overflowX:'hidden'}}>
+      <div style={{width:'100%',overflowX:'hidden'}}>
         <Header filter={selectedTab} onClick={this.handleClick} toggleDrawer={this.toggleDrawer}
           fixedTop={this.state.fixedTop} unreadMessageCount={unreadMessageCount} tabs={this.tabs}>
           {this.tabs.map((tab, index) =>

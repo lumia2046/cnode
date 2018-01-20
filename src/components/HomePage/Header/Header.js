@@ -48,7 +48,7 @@ class Header extends Component {
     return (
       <MuiThemeProvider>
         <div>
-          <div className={styles.header} style={{ top: -this.props.fixedTop, width: window.width }}>
+          <div className={styles.header} style={{ top: -this.props.fixedTop, width: window.width||'100%' }}>
             <AppBar title={<p style={{ textAlign: 'center' }}>NodeJS论坛</p>} onLeftIconButtonClick={this.props.toggleDrawer}
               iconElementRight={<div style={{ marginTop: -8 }}>
                 <Badge badgeContent={this.props.unreadMessageCount} secondary={true} style={{ top: 3 }}>

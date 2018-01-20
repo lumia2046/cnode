@@ -3,16 +3,20 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CircularProgress from 'material-ui/CircularProgress';
 import getSize from '../../utils/getSize'
 
-const {windowH,windowW} = getSize()
+const { windowH, windowW } = getSize()
 const style = {
-	display:'block',
-	margin:`${0.5*windowH-30}px auto`
+	position:'relative',
+	paddingTop: 0.5 * windowH - 40,
+	textAlign: 'center'
 
 }
 const CircleLoading = () => (
-	<MuiThemeProvider>
-		<CircularProgress size={60} thickness={7} style={style}/>
-	</MuiThemeProvider>
+	<div style={style} id='circle'>
+		<MuiThemeProvider>
+			<CircularProgress size={60} thickness={7} />
+		</MuiThemeProvider>
+	</div>
+
 );
 
 export default CircleLoading;
