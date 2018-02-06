@@ -11,7 +11,7 @@ const style = {
   position: 'fixed',
   bottom: 50,
   right: 50
-};
+}
 
 @connect()
 class FloatActionButton extends React.Component {
@@ -30,4 +30,4 @@ class FloatActionButton extends React.Component {
 }
 
 
-export default FloatActionButton;
+export default FloatActionButton

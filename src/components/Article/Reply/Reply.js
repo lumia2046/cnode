@@ -101,7 +101,7 @@ class Reply extends Component {
 			      					<div className={styles.main}>
 			      						<div className={styles.item}>
 			      							<Link to={`${prefix}/profile`} onClick={e => {
-												  this.props.dispatch(setTransition({ transition: 'move' }))
+												  this.props.dispatch(setTransition({ transition: 'up' }))
 			      								if(profile.loginname !== reply.author.loginname){
 			      									dispatch(fetchProfile(reply.author.loginname))
 			      								}

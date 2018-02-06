@@ -2,20 +2,31 @@ import React, { Component } from 'react'
 import { Route, Router, Redirect, Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import createHistory from 'history/createHashHistory'
+import lazyLoadComponent from 'lazy-load-component'
 import App from './containers/App'
 import HomePage from './containers/HomePage'
-import Article from './containers/Article'
-import Message from './containers/Message'
-import Login from './containers/Login'
-import Profile from './containers/Profile'
-import PublishTopic from './containers/PublishTopic'
+// import Article from './containers/Article'
+// import Message from './containers/Message'
+// import Login from './containers/Login'
+// import Profile from './containers/Profile'
+// import PublishTopic from './containers/PublishTopic'
 import prefix from './utils/routePrefix'
 import getSize from './utils/getSize'
 import { setHashUrl, setTransition } from './actions/hashUrl'
 // import { clearUserInfo } from './actions/login'
 import { clearError } from './actions/fetchError'
 import { CSSTransition, TransitionGroup, Transition } from 'react-transition-group'
+
 const history = createHistory()
+
+const Article = lazyLoadComponent(() => import(/*webpackChunkName:"Article" */'./containers/Article'))
+const Message = lazyLoadComponent(() => import(/*webpackChunkName:"Message" */'./containers/Message'))
+const Login = lazyLoadComponent(() => import(/*webpackChunkName:"Login" */'./containers/Login'))
+const Profile = lazyLoadComponent(() => import(/*webpackChunkName:"Profile" */'./containers/Profile'))
+const PublishTopic = lazyLoadComponent(() => import(/*webpackChunkName:"PublishTopic" */'./containers/PublishTopic'))
+
+
+
 
 
 
@@ -61,6 +72,7 @@ class Routes extends Component {
     componentWillMount() {
         let dispatch = this.props.dispatch
         window.myDispatch = dispatch
+
         let menu = window.location.href.split('#')[1].split('/')
         if (menu[1]) {
             this.currentUrl = window.location.href.split('#')[1]
@@ -93,18 +105,18 @@ class Routes extends Component {
         return (
             <Router path={`${prefix}/`} history={history}>
                 <Route render={({ location }) => (
-                    <div style={{ position: 'relative', height: getSize().windowH, width: '100%', overflow: this.state.overflow || 'visible' }}>
+                    <div style={{ position: 'relative', height: getSize().windowH, width: '100%' }}>
                         <TransitionGroup>
                             <Transition timeout={500} key={location.pathname}
-                                onEnter={() =>  this.enterCN = `${this.transition}-enter` }
-                                onEntering={() =>  this.enterCN = `${this.transition}-enter ${this.transition}-enter-active`}
-                                onEntered={() => this.enterCN = `` }
+                                onEnter={() => this.enterCN = `${this.transition}-enter`}
+                                onEntering={() => this.enterCN = `${this.transition}-enter ${this.transition}-enter-active`}
+                                onEntered={() => this.enterCN = ``}
                                 onExit={() => this.exitCN = `${this.transition}-exit`}
                                 onExiting={() => this.exitCN = `${this.transition}-exit ${this.transition}-exit-active`}
                                 onExited={() => this.exitCN = ``}
                             >
                                 {(status) => (
-                                    <div className={status.includes('enter') ? this.enterCN : this.exitCN} >
+                                    <div className={status.includes('enter') ? this.enterCN : this.exitCN}>
                                         <Switch location={location}>
                                             <Route exact path='/' render={() => <Redirect to='/home' />} />
                                             <Route path='/home' render={() => <HomePage />} />
@@ -126,6 +138,7 @@ class Routes extends Component {
 
 
     componentDidMount() {
+        window.width = document.getElementById('root').offsetWidth
         window.addEventListener('beforeunload', this.saveState)
     }
 
@@ -137,22 +150,4 @@ class Routes extends Component {
 
 }
 
-
-
-// const Routes = ({ props }) => (
-//     <Router path={`${prefix}/`} history={history}>
-//         <Route render={({ location }) => (
-//             <Switch>
-//                 <Route exact path='/' render={() => <HomePage />} />
-//                 <Route path='/topic/:id' render={() => <Article />} />
-//                 <Route path='/message' render={() => <Message />} />
-//                 <Route path='/login' render={() => <Login />} />
-//                 <Route path='/profile' render={() => <Profile />} />
-//                 <Route path='/publishTopic' render={() => <PublishTopic />} />
-//             </Switch>
-//         )} />
-//     </Router>
-// )
-
-// const Routes = <div>bbbbbbbb</div>
 export default Routes

@@ -18,7 +18,7 @@ const LinkToLogin = props => {
 		<div className={styles.linkToLogin} >
 			{!masterInfo &&
 				<Link to={`${prefix}/login`} className={styles.link} onClick={() => {
-					dispatch(setTransition({ transition: 'move' }))
+					dispatch(setTransition({ transition: 'up' }))
 					dispatch(setCurrentRouter('login'))
 				}}>
 					<MuiThemeProvider>

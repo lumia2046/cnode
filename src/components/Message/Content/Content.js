@@ -82,7 +82,7 @@ class Content extends Component {
 										<List>
 											{hasNotReadMessage.map((msg, index) =>
 												<Link key={index} to={`${prefix}/topic/${msg.topic.id}`} className={styles.link} onClick={(e) => {
-													dispatch(setTransition({ transition: 'move' }))
+													dispatch(setTransition({ transition: 'up' }))
 													if (!article[msg.topic.id]) {
 														dispatch(fetchArticle(msg.topic.id))
 													} else if (article.currentTopicId !== topic.id) {
@@ -128,7 +128,7 @@ class Content extends Component {
 									<List>
 										{hasReadMessage.map((msg, index) =>
 											<Link key={index} to={`${prefix}/topic/${msg.topic.id}`} className={styles.link} onClick={(e) => {
-												dispatch(setTransition({ transition: 'move' }))
+												dispatch(setTransition({ transition: 'up' }))
 												if (!article[msg.topic.id]) {
 													dispatch(fetchArticle(msg.topic.id))
 												} else if (article.currentTopicId !== topic.id) {

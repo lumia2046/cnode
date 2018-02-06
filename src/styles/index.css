@@ -100,7 +100,6 @@ a:hover,a:link,a:visited,a:active{
 
 .left-enter.left-enter-active {
   left: 0;
-
 }
 
 .left-exit {
@@ -148,5 +147,5 @@ a:hover,a:link,a:visited,a:active{
 }
 
 .up-exit.up-exit-active {
-
+  top: 0;
 }

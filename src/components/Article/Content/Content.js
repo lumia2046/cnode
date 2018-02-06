@@ -54,7 +54,7 @@ class Content extends Component {
 									</div>
 									<div className={styles.info}>
 										<Link to={`${prefix}/profile`} onClick={e => {
-											this.props.dispatch(setTransition({ transition: 'move' }))
+											this.props.dispatch(setTransition({ transition: 'up' }))
 											if (profile.loginname !== article.author.loginname) {
 												dispatch(fetchProfile(article.author.loginname))
 											}

@@ -52,7 +52,7 @@ class Header extends Component {
             <AppBar title={<p style={{ textAlign: 'center' }}>NodeJS论坛</p>} onLeftIconButtonClick={this.props.toggleDrawer}
               iconElementRight={<div style={{ marginTop: -8 }}>
                 <Badge badgeContent={this.props.unreadMessageCount} secondary={true} style={{ top: 3 }}>
-                  <Link to={`${prefix}/message`} onClick={() => this.props.dispatch(setTransition({ transition: 'move' }))}>
+                  <Link to={`${prefix}/message`} onClick={() => this.props.dispatch(setTransition({ transition: 'up' }))}>
                     <IconButton tooltip="未读消息" style={{ padding: 0, width: 25, height: 25 }}>
                       <div>
                         <NotificationsIcon style={{ color: 'white' }} />

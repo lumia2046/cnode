@@ -17,7 +17,6 @@ class Header extends Component {
 
 	render() {
 		const { isFetching, title, history, hashUrl } = this.props
-		console.log(this.props.history)
 		return (
 			<div className={styles.header} style={{ width: window.width || '100%' }}>
 				<MuiThemeProvider>

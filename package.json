@@ -15,10 +15,10 @@
   "license": "ISC",
   "dependencies": {
     "babel-polyfill": "^6.20.0",
-    "classnames": "^2.2.5",
     "github-markdown-css": "^2.4.1",
     "history": "^4.6.1",
     "isomorphic-fetch": "^2.2.1",
+    "lazy-load-component": "^1.1.2",
     "material-ui": "^0.20.0",
     "normalize.css": "^7.0.0",
     "pullhelper": "^1.1.8",

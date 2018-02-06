@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { switchSupport, fetchComment, fetchArticle, recordArticleScrollT, fetchProfile } from '../actions'
 import Header from '../components/common/Header/Header'
 import CircleLoading from '../components/common/CircleLoading'
+import AsyncContainer from '../components/common/AsyncContainer'
 import Content from '../components/Article/Content/Content'
 import Reply from '../components/Article/Reply/Reply'
 import getSize from '../utils/getSize'
@@ -37,14 +38,14 @@ class Article extends Component {
     })
     let { scrollT } = getSize()
     const { currentTopicId, dispatch, profile, login } = this.props;
-    dispatch(recordArticleScrollT(currentTopicId, scrollT));
+    dispatch(recordArticleScrollT(currentTopicId, scrollT))
     if (!window.sessionStorage.masterProfile && login.loginName === profile.loginname) {
       window.sessionStorage.masterProfile = JSON.stringify(profile)
     }
   }
 
   render() {
-    let { isFetching, article, currentTopicId, login, switchSupportInfo, isCommented, dispatch, collectedTopics, profile } = this.props;
+    let { isFetching, article, currentTopicId, login, switchSupportInfo, isCommented, dispatch, collectedTopics, profile } = this.props
     if (login.loginName !== profile.loginname && window.sessionStorage.masterProfile) {
       collectedTopics = JSON.parse(window.sessionStorage.masterProfile).collectedTopics
     }
@@ -56,8 +57,10 @@ class Article extends Component {
         {Object.keys(article).length !== 0 &&
           <div>
             <Content {...({ article, dispatch, fetchProfile, login, collectedTopics, profile }) } />
-            <Reply replies={article.replies}
-              {...({ login, dispatch, switchSupportInfo, currentTopicId, profile, isCommented }) } />
+            <AsyncContainer>
+              <Reply replies={article.replies}
+                {...({ login, dispatch, switchSupportInfo, currentTopicId, profile, isCommented }) } />
+            </AsyncContainer>
           </div>
         }
       </div>

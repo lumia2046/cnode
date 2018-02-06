@@ -66,7 +66,7 @@ const TopicList = props => {
 		    {topics.length > 0 && 
 				topics.map((topic,index) => 
 					<Link key={index} to={`${prefix}/topic/${topic.id}`} className={styles.link} onClick={() => {
-						dispatch(setTransition({ transition: 'move' }))
+						dispatch(setTransition({ transition: 'up' }))
 					  if(!article[topic.id]){
 					    dispatch(fetchArticle(topic.id))
 					  }else if(article.currentTopicId !== topic.id){

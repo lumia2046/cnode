@@ -157,7 +157,7 @@ class HomePage extends Component {
   render() {
     const { selectedTab, isFetching, page, topics, dispatch, article, currentRouter, login, profile, unreadMessageCount, tabData } = this.props;
     return (
-      <div style={{ width: '100%', overflowX: 'hidden' }}>
+      <div>
         <Header filter={selectedTab} onClick={this.handleClick} toggleDrawer={this.toggleDrawer}
           fixedTop={this.state.fixedTop} unreadMessageCount={unreadMessageCount} tabs={this.tabs}>
           {this.tabs.map((tab, index) =>

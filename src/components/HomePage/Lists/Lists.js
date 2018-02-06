@@ -28,7 +28,7 @@ const Lists = props => {
 							easing='ease-out' duration='400' staggerDelayBy='40' staggerDurationBy='4'>
 							{topics.map((topic, i) =>
 								<Link key={i} to={`${prefix}/topic/${topic.id}`} className={styles.link} onClick={() => {
-									dispatch(setTransition({ transition: 'move' }))
+									dispatch(setTransition({ transition: 'up' }))
 									if (!article[topic.id]) {
 										dispatch(fetchArticle(topic.id))
 									} else if (article.currentTopicId !== topic.id) {
