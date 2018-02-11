@@ -3,16 +3,18 @@ import FlipMove from 'react-flip-move'
 import transformDate from '../../../utils/transformDate'
 import styles from './styles.scss'
 import { setTransition } from '../../../actions/hashUrl'
+import { recordScrollT } from '../../../actions'
 import { Link } from 'react-router-dom'
 import prefix from '../../../utils/routePrefix'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { List, ListItem } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
 import Avatar from 'material-ui/Avatar'
+import getSize from '../../../utils/getSize'
 
 const Lists = props => {
 	const tabChn = { all: '全部', good: '精华', share: '分享', ask: '问答', job: '招聘' }
-	const { topics, fetchArticle, dispatch, article, isFetching } = props;
+	const { topics, fetchArticle, dispatch, article, isFetching, selectedTab, history } = props
 	let disableAllAnimations = topics.length === 20 ? false : true
 	// disableAllAnimations从启用到禁用时enterAnimation设定的动画会不起作用，原因不明。
 	let enterAnimation = {
@@ -27,8 +29,9 @@ const Lists = props => {
 						<FlipMove disableAllAnimations={disableAllAnimations} enterAnimation={enterAnimation}
 							easing='ease-out' duration='400' staggerDelayBy='40' staggerDurationBy='4'>
 							{topics.map((topic, i) =>
-								<Link key={i} to={`${prefix}/topic/${topic.id}`} className={styles.link} onClick={() => {
-									dispatch(setTransition({ transition: 'up' }))
+								<Link to={`${prefix}/topic/${topic.id}`} key={i} onClick={() => {
+									dispatch(recordScrollT(selectedTab, getSize().scrollT))
+									dispatch(setTransition({ transition: 'move' }))
 									if (!article[topic.id]) {
 										dispatch(fetchArticle(topic.id))
 									} else if (article.currentTopicId !== topic.id) {

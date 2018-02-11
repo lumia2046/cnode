@@ -5,11 +5,11 @@ import createHistory from 'history/createHashHistory'
 import lazyLoadComponent from 'lazy-load-component'
 import App from './containers/App'
 import HomePage from './containers/HomePage'
-// import Article from './containers/Article'
-// import Message from './containers/Message'
-// import Login from './containers/Login'
-// import Profile from './containers/Profile'
-// import PublishTopic from './containers/PublishTopic'
+import Article from './containers/Article'
+import Message from './containers/Message'
+import Login from './containers/Login'
+import Profile from './containers/Profile'
+import PublishTopic from './containers/PublishTopic'
 import prefix from './utils/routePrefix'
 import getSize from './utils/getSize'
 import { setHashUrl, setTransition } from './actions/hashUrl'
@@ -19,11 +19,11 @@ import { CSSTransition, TransitionGroup, Transition } from 'react-transition-gro
 
 const history = createHistory()
 
-const Article = lazyLoadComponent(() => import(/*webpackChunkName:"Article" */'./containers/Article'))
-const Message = lazyLoadComponent(() => import(/*webpackChunkName:"Message" */'./containers/Message'))
-const Login = lazyLoadComponent(() => import(/*webpackChunkName:"Login" */'./containers/Login'))
-const Profile = lazyLoadComponent(() => import(/*webpackChunkName:"Profile" */'./containers/Profile'))
-const PublishTopic = lazyLoadComponent(() => import(/*webpackChunkName:"PublishTopic" */'./containers/PublishTopic'))
+// const Article = lazyLoadComponent(() => import(/*webpackChunkName:"Article" */'./containers/Article'))
+// const Message = lazyLoadComponent(() => import(/*webpackChunkName:"Message" */'./containers/Message'))
+// const Login = lazyLoadComponent(() => import(/*webpackChunkName:"Login" */'./containers/Login'))
+// const Profile = lazyLoadComponent(() => import(/*webpackChunkName:"Profile" */'./containers/Profile'))
+// const PublishTopic = lazyLoadComponent(() => import(/*webpackChunkName:"PublishTopic" */'./containers/PublishTopic'))
 
 
 
@@ -72,7 +72,8 @@ class Routes extends Component {
     componentWillMount() {
         let dispatch = this.props.dispatch
         window.myDispatch = dispatch
-
+        window.width = getSize().windowW
+        window.height = getSize().windowH
         let menu = window.location.href.split('#')[1].split('/')
         if (menu[1]) {
             this.currentUrl = window.location.href.split('#')[1]
@@ -105,7 +106,7 @@ class Routes extends Component {
         return (
             <Router path={`${prefix}/`} history={history}>
                 <Route render={({ location }) => (
-                    <div style={{ position: 'relative', height: getSize().windowH, width: '100%' }}>
+                    <div style={{ position: 'relative', width: window.width, height: window.height, overflow: 'hidden' }}>
                         <TransitionGroup>
                             <Transition timeout={500} key={location.pathname}
                                 onEnter={() => this.enterCN = `${this.transition}-enter`}
@@ -116,7 +117,7 @@ class Routes extends Component {
                                 onExited={() => this.exitCN = ``}
                             >
                                 {(status) => (
-                                    <div className={status.includes('enter') ? this.enterCN : this.exitCN}>
+                                    <div className={status.includes('enter') ? this.enterCN : this.exitCN} style={{ width: window.width, height: window.height, overflow: 'auto' }}>
                                         <Switch location={location}>
                                             <Route exact path='/' render={() => <Redirect to='/home' />} />
                                             <Route path='/home' render={() => <HomePage />} />

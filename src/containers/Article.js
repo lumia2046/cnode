@@ -17,10 +17,14 @@ class Article extends Component {
     }
   }
   componentWillMount() {
+
     const { scrollT, dispatch, article, isFetching } = this.props
+
     if (scrollT) {
-      window.scrollTo(0, scrollT)
+      // window.scrollTo(0, scrollT)
     }
+    // window.scrollTo(0, scrollT)
+
     if (!article.author && !isFetching) {
       const topicId = window.location.href.split('topic/')[1].split('?_')[0]
       dispatch(fetchArticle(topicId))
@@ -28,14 +32,19 @@ class Article extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const { scrollT } = newProps;
-    window.scrollTo(0, scrollT)
+    const { scrollT } = newProps
+    // window.scrollTo(0, scrollT)
+  }
+
+  componentDidMount() {
+    const { scrollT } = this.props
+    // window.scrollTo(0, scrollT)
   }
 
   componentWillUnmount() {
-    this.setState({
-      fadeIn: false
-    })
+    this.setState = (state, callback) => {
+      return
+    }
     let { scrollT } = getSize()
     const { currentTopicId, dispatch, profile, login } = this.props;
     dispatch(recordArticleScrollT(currentTopicId, scrollT))
@@ -45,6 +54,7 @@ class Article extends Component {
   }
 
   render() {
+    console.log('Article',getSize().scrollT)
     let { isFetching, article, currentTopicId, login, switchSupportInfo, isCommented, dispatch, collectedTopics, profile } = this.props
     if (login.loginName !== profile.loginname && window.sessionStorage.masterProfile) {
       collectedTopics = JSON.parse(window.sessionStorage.masterProfile).collectedTopics
@@ -56,11 +66,11 @@ class Article extends Component {
         {Object.keys(article).length === 0 && <CircleLoading />}
         {Object.keys(article).length !== 0 &&
           <div>
-            <Content {...({ article, dispatch, fetchProfile, login, collectedTopics, profile }) } />
-            <AsyncContainer>
+            <Content {...({ article, dispatch, fetchProfile, login, collectedTopics, profile })} />
+        
               <Reply replies={article.replies}
-                {...({ login, dispatch, switchSupportInfo, currentTopicId, profile, isCommented }) } />
-            </AsyncContainer>
+                {...({ login, dispatch, switchSupportInfo, currentTopicId, profile, isCommented })} />
+           
           </div>
         }
       </div>

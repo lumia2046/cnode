@@ -4,16 +4,23 @@ import CircleLoading from './CircleLoading'
 class AsyncContainer extends Component {
     state = { mounted: false }
 
-    componentWillMount() {
+    componentDidMount() {
         this.timeOut = setTimeout(() => {
             this.setState({ mounted: true })
-        }, this.props.delay || 600)
+        }, this.props.delay || 500)
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timeOut)
     }
 
     render() {
         return (
-            <div style={{ position: 'relative', width: '100%', background: 'white', ...this.props.style }}>
-                {this.state.mounted ? this.props.children : <CircleLoading />}
+            <div>
+                <div style={{ height: this.state.mounted ? 0 : 'auto', overflow: 'hidden' }}>
+                    <CircleLoading />
+                </div>
+                {this.state.mounted && this.props.children}
             </div>
         )
     }

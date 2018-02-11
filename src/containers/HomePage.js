@@ -14,12 +14,12 @@ import Pull from '../components/common/react-pullrefresh'
 
 // @withRouter
 @connect(state => {
-  const { homePage, article, login, profile, message } = state;
+  const { homePage, article, login, profile, message, hashUrl } = state
   const { selectedTab, tabData } = homePage;
   const unreadMessageCount = message.hasNotReadMessage.length
   // 当组件第一次render时,还未进行任何action,初始化的state里没有tabData[selectedTab]，所以这里需要初始化
   const { isFetching, page, scrollT, topics } = tabData[selectedTab] || { isFetching: false, page: 0, scrollT: 0, topics: [] }
-  return { isFetching, page, scrollT, topics, selectedTab, article, login, profile, tabData, unreadMessageCount }
+  return { isFetching, page, scrollT, topics, selectedTab, article, login, profile, tabData, unreadMessageCount, hashUrl }
 })
 class HomePage extends Component {
   constructor() {
@@ -99,7 +99,7 @@ class HomePage extends Component {
     const { selectedTab, page, isFetching, dispatch } = this.props;
     let ipage = page
     if (!isFetching) {
-      dispatch(fetchTopics(selectedTab, ++ipage));
+      dispatch(fetchTopics(selectedTab, ++ipage))
     }
   }
   toggleDrawer = () => {
@@ -109,11 +109,16 @@ class HomePage extends Component {
   }
 
   componentWillMount() {
-    // console.log(this.props)
+    const { scrollT } = this.props
+
+    // if (scrollT) {
+    //   window.scrollTo(0, scrollT)
+    // }
   }
-  componentWillReceiveProps(newProps) {
-    // console.log('componentWillReceiveProps',getSize().scrollT)
-    const { topics, isFetching, selectedTab, scrollT, dispatch } = newProps;
+  componentWillUpdate(newProps, newState) {
+ 
+
+    const { topics, isFetching, selectedTab, scrollT, dispatch } = newProps
     // 去除刷新时记住的滚动条位置
     if (topics.length === 0 && this.props.scrollT === 0) {
       window.scrollTo(0, 0)
@@ -124,13 +129,12 @@ class HomePage extends Component {
     }
     if (selectedTab !== this.props.selectedTab) {
       if (scrollT) {
+        // console.log(scrollT, " window.scrollTo",'componentWillUpdate')
         window.scrollTo(0, scrollT)
       }
     }
   }
-  // componentWillUpdate(newProps,newState){
-  //   console.log('componentWillUpdate',getSize().scrollT,newState)
-  // }
+
   tabs = [
     {
       title: '全部',
@@ -155,7 +159,8 @@ class HomePage extends Component {
   ]
 
   render() {
-    const { selectedTab, isFetching, page, topics, dispatch, article, currentRouter, login, profile, unreadMessageCount, tabData } = this.props;
+
+    const { selectedTab, isFetching, page, topics, dispatch, article, currentRouter, login, profile, unreadMessageCount, tabData,history } = this.props
     return (
       <div>
         <Header filter={selectedTab} onClick={this.handleClick} toggleDrawer={this.toggleDrawer}
@@ -164,35 +169,32 @@ class HomePage extends Component {
             <div key={index}>
               {((isFetching && page === 0) || (tab.filter !== selectedTab && !tabData[tab.filter])) && <CircleLoading />}
               {tab.filter === selectedTab && <div style={{ opacity: (!isFetching || page >= 1) ? 1 : 0 }}>
-                <Lists topics={topics} fetchArticle={fetchArticle} dispatch={dispatch} article={article} isFetching={isFetching} />
+                <Lists topics={topics} fetchArticle={fetchArticle} dispatch={dispatch} article={article} isFetching={isFetching} selectedTab={selectedTab} history={history}/>
               </div>}
             </div>
           )}
         </Header>
         {!isFetching && <FloatingActionButton />}
         <Drawer toggleDrawer={this.toggleDrawer} openDrawer={this.state.openDrawer}
-          {...({ login, dispatch, profile }) } />
+          {...({ login, dispatch, profile })} />
         <Snackbar isOpened={this.state.openSnackbar} message='刷新成功' />
       </div>
     )
   }
 
   componentDidMount() {
-    const { selectedTab, page, scrollT, dispatch } = this.props;
+    const { selectedTab, page, scrollT, dispatch } = this.props
     if (page === 0) {
       dispatch(fetchTopics(selectedTab));
     }
-    if (scrollT) {
-      window.scrollTo(0, scrollT);
-    }
+    
+
     let lastScrollY = this.lastScrollY
-    // window.onmousedown = () => {
-    //   console.log('a')
-    //   let {windowH,contentH,scrollT} = getSize()
+
+    // if (scrollT) {
+    //   window.scrollTo(0, scrollT)
     // }
-    // window.onload = () => {
-    // 	window.scrollTo(0,0)
-    // }
+
     window.onscroll = () => {
       let { windowH, contentH, scrollT } = getSize()
       if (windowH + scrollT + 100 > contentH) {
@@ -231,13 +233,12 @@ class HomePage extends Component {
         lastScrollY = scrollT
       }
     }
-    // console.log('componentDidMount',getSize().scrollT)
   }
 
   componentDidUpdate() {
     let { windowH, contentH, scrollT } = getSize();
     const { topics } = this.props
-    // console.log(scrollT)
+
     // 第一次切换到没有加载数据的tab时，在willReceiveProp中已经将页面滚动了一定距离，在render中打印scrollT也不为0
     // 但是一进入这个函数scrollT就变为0,而且也未触发onscroll事件（问题待解决），所以目前只能去重新判断这种情况
     if (scrollT === 0 && this.state.scrollT > 0) {
@@ -248,18 +249,15 @@ class HomePage extends Component {
     if (topics.length > 0 && windowH + 200 > contentH) {
       // this.loadMore()
     }
-    // console.log('componentDidUpdate',getSize().scrollT)
   }
   componentWillUnmount() {
-    let { scrollT } = getSize()
-    const { selectedTab, dispatch } = this.props;
-    dispatch(recordScrollT(selectedTab, scrollT));
+
     // 必须解绑事件，否则当组件再次被加载时，该事件会监听两个组件
-    window.onscroll = null;
+    window.onscroll = null
   }
 }
 
 
 // 用connect方法连接HomePage组件，实际上是在HomePage组件上加上了Connect(HomePage)这个父组件，HomePage里有关Connect的state变化的props就是通过mapStateToProps设置的
 // connect方法的第二个参数如果不传的话就会默认将store.dispatch默认作为了dispatch参数传进HomePage的props，所以HomePage的props里就有一个dispatch
-export default HomePage
+export default withRouter(HomePage)

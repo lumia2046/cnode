@@ -11,7 +11,7 @@ const style = {
 
 }
 const CircleLoading = () => (
-	<div style={style} id='circle'>
+	<div style={style}>
 		<MuiThemeProvider>
 			<CircularProgress size={60} thickness={7} />
 		</MuiThemeProvider>
