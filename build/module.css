@@ -1,8 +1,7 @@
 .components-common-Header-styles-header-KVlF1 {
-  position: fixed;
   width: 100%;
   z-index: 10;
-  transform-origin: 0% 0%; }
+  transition: all 0.5s ease-out; }
 
 .components-common-Header-styles-title-2JhZH {
   padding-right: 30px;
@@ -87,7 +86,6 @@
   position: fixed;
   overflow: hidden;
   z-index: 10;
-  width: 100%;
   transition: all 0.3s; }
 .components-HomePage-Drawer-styles-header-1ss7F {
   text-align: center;
