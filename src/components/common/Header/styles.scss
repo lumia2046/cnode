@@ -1,18 +1,13 @@
 .header{
-	position: fixed;
+	// position: fixed;
 	width: 100%;
 	z-index: 10;
-	// animation: animations 0.5s;
-	transform-origin: 0% 0%;
-	
+	transition: all 0.5s ease-out;
 }
 
 .title{
 	padding-right: 30px;
 	text-align: center;
 }
-// @keyframes animations{
-// 	0%{top: -100%}
-// 	100%{top: 0px}
-// }
+
 

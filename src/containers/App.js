@@ -23,16 +23,10 @@ class App extends Component {
       const loginName = masterInfo.loginName
       LoadingAction(accessToken,loginName)
     }else{
-      const accessToken = '1cbc2a58-6c1b-426f-971d-070676fb849d'
-      const loginName = 'lumia2046'
-      LoadingAction(accessToken,loginName)
+      // const accessToken = '1cbc2a58-6c1b-426f-971d-070676fb849d'
+      // const loginName = 'lumia2046'
+      // LoadingAction(accessToken,loginName)
     }
-  }
-  componentWillReceiveProps(newProps){
-    // console.log(newProps)
-  }
-  componentWillUnmount(){
-    // console.log('componentWillUnmount')
   }
 
   render() {

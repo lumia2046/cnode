@@ -3,7 +3,6 @@ import FlipMove from 'react-flip-move'
 import transformDate from '../../../utils/transformDate'
 import styles from './styles.scss'
 import { setTransition } from '../../../actions/hashUrl'
-import { recordScrollT } from '../../../actions'
 import { Link } from 'react-router-dom'
 import prefix from '../../../utils/routePrefix'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -30,7 +29,6 @@ const Lists = props => {
 							easing='ease-out' duration='400' staggerDelayBy='40' staggerDurationBy='4'>
 							{topics.map((topic, i) =>
 								<Link to={`${prefix}/topic/${topic.id}`} key={i} onClick={() => {
-									dispatch(recordScrollT(selectedTab, getSize().scrollT))
 									dispatch(setTransition({ transition: 'move' }))
 									if (!article[topic.id]) {
 										dispatch(fetchArticle(topic.id))

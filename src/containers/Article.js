@@ -11,7 +11,7 @@ import getSize from '../utils/getSize'
 
 class Article extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       fadeIn: true
     }
@@ -33,57 +33,45 @@ class Article extends Component {
 
   componentWillReceiveProps(newProps) {
     const { scrollT } = newProps
-    // window.scrollTo(0, scrollT)
+    document.getElementById('articleContainer').scrollTop = scrollT
   }
 
   componentDidMount() {
     const { scrollT } = this.props
-    // window.scrollTo(0, scrollT)
+    document.getElementById('articleContainer').scrollTop = scrollT
   }
 
   componentWillUnmount() {
-    this.setState = (state, callback) => {
-      return
-    }
-    let { scrollT } = getSize()
-    const { currentTopicId, dispatch, profile, login } = this.props;
-    dispatch(recordArticleScrollT(currentTopicId, scrollT))
+    const { currentTopicId, dispatch, profile, login } = this.props
+    dispatch(recordArticleScrollT(currentTopicId, document.getElementById('articleContainer').scrollTop))
     if (!window.sessionStorage.masterProfile && login.loginName === profile.loginname) {
       window.sessionStorage.masterProfile = JSON.stringify(profile)
     }
   }
 
   render() {
-    console.log('Article',getSize().scrollT)
     let { isFetching, article, currentTopicId, login, switchSupportInfo, isCommented, dispatch, collectedTopics, profile } = this.props
     if (login.loginName !== profile.loginname && window.sessionStorage.masterProfile) {
       collectedTopics = JSON.parse(window.sessionStorage.masterProfile).collectedTopics
     }
     return (
 
-      <div>
-        <Header isFetching={isFetching} title='详情' showBack={true} />
+      <div id='articleContainer' style={{ width: window.width, height: window.height, overflow: 'auto' }}>
+        <Header isFetching={isFetching} title='详情' showBack={true} position={true} />
         {Object.keys(article).length === 0 && <CircleLoading />}
         {Object.keys(article).length !== 0 &&
           <div>
             <Content {...({ article, dispatch, fetchProfile, login, collectedTopics, profile })} />
-        
-              <Reply replies={article.replies}
-                {...({ login, dispatch, switchSupportInfo, currentTopicId, profile, isCommented })} />
-           
+
+            <Reply replies={article.replies}
+              {...({ login, dispatch, switchSupportInfo, currentTopicId, profile, isCommented })} />
+
           </div>
         }
       </div>
 
     )
   }
-}
-
-Article.propTypes = {
-  // currentTopicId: PropTypes.string.isRequired,
-  // article: PropTypes.object.isRequired,
-  // isFetching: PropTypes.bool.isRequired,
-  // dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {

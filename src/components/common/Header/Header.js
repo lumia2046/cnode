@@ -13,12 +13,30 @@ import getSize from '../../../utils/getSize'
 class Header extends Component {
 	constructor() {
 		super()
+		this.state = { position: 'static' }
+
+	}
+	componentWillMount() {
+		if (this.props.position) {
+			this.state.position = 'absolute'
+			this.state.left = '100%'
+		}
 	}
 
+	componentDidMount() {
+		if (this.props.position) {
+			this.setState({ left: 0 })
+			setTimeout(() => this.setState({ position: 'fixed' }), 500)
+		}
+	}
+
+	componentWillUnmount() {
+
+	}
 	render() {
 		const { isFetching, title, history, hashUrl } = this.props
 		return (
-			<div className={styles.header} style={{ width: window.width || '100%' }}>
+			<div className={styles.header} style={{ position: this.state.position, left: this.state.left, width: window.width || '100%' }}>
 				<MuiThemeProvider>
 					<AppBar
 						title={<p className={styles.title}>
@@ -30,6 +48,9 @@ class Header extends Component {
 						onLeftIconButtonClick={() => {
 							this.props.dispatch(setTransition({ transition: 'left' }))
 							history.goBack()
+							if (this.props.position) {
+								setTimeout(() => this.setState({ left: '100%' }), 450)
+							}
 							// window.location.href = `${window.location.href.split('#')[0]}#${hashUrl.oldUrl}`
 						}}
 					/>

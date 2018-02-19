@@ -51,7 +51,7 @@ class HomePage extends Component {
   }
   fresh = () => {
     const { selectedTab, login, dispatch } = this.props;
-    dispatch(fetchTopics(selectedTab, 1));
+    dispatch(fetchTopics(selectedTab, 1))
     dispatch(fetchMessage(login.accessToken))
   }
   openSnackbar = () => {
@@ -65,12 +65,14 @@ class HomePage extends Component {
     }, 2500)
   }
   handleClick = (tab) => {
-    let { scrollT } = getSize()
-    const { selectedTab, dispatch, tabData } = this.props;
+    let homeContainerDom = document.getElementById('homeContainer')
+    let scrollT = homeContainerDom.scrollTop
+    const { selectedTab, dispatch, tabData } = this.props
     dispatch(recordScrollT(selectedTab, scrollT))
     dispatch(selectTab(tab))
+    homeContainerDom.scrollTop = tabData[tab].scrollT || 0
 
-    const ua = navigator.userAgent;
+    const ua = navigator.userAgent
     if (!tabData[tab] && ua.indexOf('Mobile') === -1) {
       if (scrollT >= 64) {
         dispatch(recordScrollT(tab, 64))
@@ -110,13 +112,9 @@ class HomePage extends Component {
 
   componentWillMount() {
     const { scrollT } = this.props
-
-    // if (scrollT) {
-    //   window.scrollTo(0, scrollT)
-    // }
   }
   componentWillUpdate(newProps, newState) {
- 
+
 
     const { topics, isFetching, selectedTab, scrollT, dispatch } = newProps
     // 去除刷新时记住的滚动条位置
@@ -160,16 +158,16 @@ class HomePage extends Component {
 
   render() {
 
-    const { selectedTab, isFetching, page, topics, dispatch, article, currentRouter, login, profile, unreadMessageCount, tabData,history } = this.props
+    const { selectedTab, isFetching, page, topics, dispatch, article, currentRouter, login, profile, unreadMessageCount, tabData, history } = this.props
     return (
-      <div>
+      <div id='homeContainer' style={{ width: window.width, height: window.height, overflow: 'auto' }}>
         <Header filter={selectedTab} onClick={this.handleClick} toggleDrawer={this.toggleDrawer}
           fixedTop={this.state.fixedTop} unreadMessageCount={unreadMessageCount} tabs={this.tabs}>
           {this.tabs.map((tab, index) =>
             <div key={index}>
               {((isFetching && page === 0) || (tab.filter !== selectedTab && !tabData[tab.filter])) && <CircleLoading />}
               {tab.filter === selectedTab && <div style={{ opacity: (!isFetching || page >= 1) ? 1 : 0 }}>
-                <Lists topics={topics} fetchArticle={fetchArticle} dispatch={dispatch} article={article} isFetching={isFetching} selectedTab={selectedTab} history={history}/>
+                <Lists topics={topics} fetchArticle={fetchArticle} dispatch={dispatch} article={article} isFetching={isFetching} selectedTab={selectedTab} history={history} />
               </div>}
             </div>
           )}
@@ -185,24 +183,25 @@ class HomePage extends Component {
   componentDidMount() {
     const { selectedTab, page, scrollT, dispatch } = this.props
     if (page === 0) {
-      dispatch(fetchTopics(selectedTab));
+      dispatch(fetchTopics(selectedTab))
     }
-    
 
-    let lastScrollY = this.lastScrollY
+    let homeContainerDom = document.getElementById('homeContainer')
+    if (scrollT) {
+      homeContainerDom.scrollTop = scrollT
+    }
 
-    // if (scrollT) {
-    //   window.scrollTo(0, scrollT)
-    // }
-
-    window.onscroll = () => {
-      let { windowH, contentH, scrollT } = getSize()
-      if (windowH + scrollT + 100 > contentH) {
+    homeContainerDom.onscroll = () => {
+      let scrollT = homeContainerDom.scrollTop
+      let contentH = homeContainerDom.scrollHeight
+      let { windowH } = getSize()
+      if (windowH + scrollT + 10 > contentH) {
         this.loadMore()
       }
 
 
       // 由于下面的操作比较费cpu,所以进行判断是否为手机端
+      let lastScrollY = this.lastScrollY
       const ua = navigator.userAgent;
       if (ua.indexOf('Mobile') === -1) {
         if (!lastScrollY || !scrollT) {
@@ -251,7 +250,8 @@ class HomePage extends Component {
     }
   }
   componentWillUnmount() {
-
+    const { selectedTab, dispatch } = this.props
+    dispatch(recordScrollT(selectedTab, document.getElementById('homeContainer').scrollTop))
     // 必须解绑事件，否则当组件再次被加载时，该事件会监听两个组件
     window.onscroll = null
   }
