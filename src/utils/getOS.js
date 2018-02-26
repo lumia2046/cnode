@@ -1,1 +1,1 @@
-export const os = 'win32'
+export const os = 'win32';export const host = '192.168.6.183'

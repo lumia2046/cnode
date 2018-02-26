@@ -7,11 +7,36 @@ var host = 'localhost'
 var port = '5678'
 
 //判断当前运行环境是开发模式还是生产模式
-const nodeEnv = process.env.NODE_ENV || 'development'
-const isPro = nodeEnv !== 'development'
+const nodeEnv = process.env.NODE_ENV || 'development';
+const isPro = nodeEnv !== 'development';
+
 const os = require('os').platform()
+const network = require('os').networkInterfaces()
+
+Object.keys(network).forEach(item => {
+    if (network[item] && network[item][0] && network[item][0].internal == false) {
+        network[item].forEach(ips => {
+            if (ips.family == 'IPv4') {
+                host = ips.address
+            }
+        })
+    }
+})
 console.log("当前运行系统：", os)
 console.log("当前运行环境：", isPro ? 'production' : 'development')
+
+var fs = require("fs")
+var data = `export const os = '${os}';export const host = '${host}'`
+var writerStream = fs.createWriteStream('src/utils/getOS.js')
+writerStream.write(data, 'UTF8')
+writerStream.end()
+writerStream.on('finish', () => {
+    console.log("成功写入：src/utils/getOS.js")
+})
+
+writerStream.on('error', err => {
+    console.log(err.stack)
+})
 
 const moduleCss = new ExtractTextPlugin('module.css')
 const globalCss = new ExtractTextPlugin('global.css')
@@ -56,7 +81,7 @@ if (isPro) {
         })
     )
 } else {
-    app.unshift('react-hot-loader/patch', 'webpack-dev-server/client?http://' + host + ':' + port, 'webpack/hot/only-dev-server')
+    app.unshift('react-hot-loader/patch', `webpack-dev-server/client?http://${host}:${port}`, 'webpack/hot/only-dev-server')
     plugins.push(
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
