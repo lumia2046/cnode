@@ -16,7 +16,7 @@ const network = require('os').networkInterfaces()
 Object.keys(network).forEach(item => {
     if (network[item] && network[item][0] && network[item][0].internal == false) {
         network[item].forEach(ips => {
-            if (ips.family == 'IPv4') {
+            if (ips.family == 'IPv4' && ips.address.includes('192')) {
                 host = ips.address
             }
         })
@@ -25,18 +25,18 @@ Object.keys(network).forEach(item => {
 console.log("当前运行系统：", os)
 console.log("当前运行环境：", isPro ? 'production' : 'development')
 
-var fs = require("fs")
-var data = `export const os = '${os}';export const host = '${host}'`
-var writerStream = fs.createWriteStream('src/utils/getOS.js')
-writerStream.write(data, 'UTF8')
-writerStream.end()
-writerStream.on('finish', () => {
-    console.log("成功写入：src/utils/getOS.js")
-})
+// var fs = require("fs")
+// var data = `export const os = '${os}';export const host = '${host}'`
+// var writerStream = fs.createWriteStream('src/utils/getOS.js')
+// writerStream.write(data, 'UTF8')
+// writerStream.end()
+// writerStream.on('finish', () => {
+//     console.log("成功写入：src/utils/getOS.js")
+// })
 
-writerStream.on('error', err => {
-    console.log(err.stack)
-})
+// writerStream.on('error', err => {
+//     console.log(err.stack)
+// })
 
 const moduleCss = new ExtractTextPlugin('module.css')
 const globalCss = new ExtractTextPlugin('global.css')
