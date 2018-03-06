@@ -13,17 +13,19 @@ const isPro = nodeEnv !== 'development';
 const os = require('os').platform()
 const network = require('os').networkInterfaces()
 
-Object.keys(network).forEach(item => {
-    if (network[item] && network[item][0] && network[item][0].internal == false) {
-        network[item].forEach(ips => {
-            if (ips.family == 'IPv4' && ips.address.includes('192')) {
-                host = ips.address
-            }
-        })
-    }
-})
 console.log("当前运行系统：", os)
 console.log("当前运行环境：", isPro ? 'production' : 'development')
+
+// Object.keys(network).forEach(item => {
+//     if (network[item] && network[item][0] && network[item][0].internal == false && ['以太网', '本地连接'].includes(item)) {
+//         network[item].forEach(ips => {
+//             if (ips.family == 'IPv4') {
+//                 host = ips.address
+//             }
+//         })
+//     }
+// })
+
 
 // var fs = require("fs")
 // var data = `export const os = '${os}';export const host = '${host}'`

@@ -28,7 +28,7 @@
   cd cnode
   npm install
   npm start
-  访问地址是本机ip，端口号是5678
+  打开浏览器访问：http://localhost:5678
 ```
 
 ## 生产项目
