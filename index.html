@@ -98,6 +98,8 @@
             video.play();
         });
     } else {
+        console.log(navigator.mediaDevices)
+        console.log(navigator.mediaDevices.getUserMedia)
         alert('无法拿到权限')
     }
 
