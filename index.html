@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.bootcss.com/vConsole/3.3.0/vconsole.min.js"></script>
     <title>Document</title>
 </head>
+
 <style>
     body {
         padding: 0;
@@ -69,6 +71,7 @@
 
 </body>
 <script>
+    var vConsole = new VConsole();
     // Grab elements, create settings, etc.
 
     var screenWidth = screen.availWidth * window.devicePixelRatio
@@ -80,6 +83,7 @@
 
 
     // Get access to the camera!
+
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         // Not adding `{ audio: true }` since we only want video now
         navigator.mediaDevices.getUserMedia({
@@ -93,8 +97,9 @@
             video.srcObject = stream;
             video.play();
         });
-    }else{
+    } else {
         alert('无法拿到权限')
+    }
 
     /* Legacy code below: getUserMedia
     else if(navigator.getUserMedia) { // Standard
