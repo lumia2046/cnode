@@ -186,10 +186,12 @@
 </body>
 <script>
     var vConsole = new VConsole();
+
     document.querySelector('#file').addEventListener('change', function () {
         //监听input的change事件，存储用户拍摄的图片
         var file = this.files[0];
-        debugger
+
+
         EXIF.getData(file, function () {
             var orientation = EXIF.getTag(this, 'Orientation');
             //使用exif.js获取图片元数据
@@ -220,45 +222,57 @@
                     return target;
                 };
                 var img = new Image()
-                img.src = URL.createObjectURL(file)
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function (e) {
+                    img.src = e.target.result
+                    // watermark([file])
+                    //     //开始打水印
+                    //     .image(rotate)
+                    //     .then(function (img) {
+                    //         //防止多次拍摄,初始化预览图片
+                    $('#fileBga').html('');
+                    document.getElementById('fileBga').appendChild(img);
+                    var iOSsrc = img.src;
+                    lrz(iOSsrc, { width: '100%' })
+                        .then(function (rst) {
+                            // 处理成功会执行
+                            $('#fileBg').attr('src', rst.base64);
+                        })
+                        .catch(function (err) {
+                            // 处理失败会执行
+                            console.log(err);
+                        })
+                    //     });
+                };
 
-                // watermark([file])
-                //     //开始打水印
-                //     .image(rotate)
-                //     .then(function (img) {
-                //         //防止多次拍摄,初始化预览图片
-                $('#fileBga').html('');
-                document.getElementById('fileBga').appendChild(img);
-                var iOSsrc = img.src;
-                lrz(iOSsrc, { width: '100%' })
-                    .then(function (rst) {
-                        // 处理成功会执行
-                        $('#fileBg').attr('src', rst.base64);
-                    })
-                    .catch(function (err) {
-                        // 处理失败会执行
-                        console.log(err);
-                    })
-                //     });
+
+
             } else {
                 // watermark([file])
                 //     //安卓打水印
                 //     .image(watermark.text.center('puzzle-idea', '200px 微软雅黑', '#fff', 0.5))
                 //     .then(function (img) {
                 var img = new Image()
-                img.src = URL.createObjectURL(file)
-                $('#fileBga').html('');
-                document.getElementById('fileBga').appendChild(img);
-                var Androidsrc = img.src;
-                lrz(Androidsrc, { width: '100%' })
-                    .then(function (rst) {
-                        // 处理成功会执行
-                        $('#fileBg').attr('src', rst.base64);
-                    })
-                    .catch(function (err) {
-                        // 处理失败会执行
-                        console.log(err);
-                    })
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function (e) {
+                    img.src = e.target.result
+                    $('#fileBga').html('');
+                    document.getElementById('fileBga').appendChild(img);
+                    var Androidsrc = img.src;
+                    lrz(Androidsrc, { width: '100%' })
+                        .then(function (rst) {
+                            // 处理成功会执行
+                            $('#fileBg').attr('src', rst.base64);
+                        })
+                        .catch(function (err) {
+                            // 处理失败会执行
+                            console.log(err);
+                        })
+                }
+
+
                 //     });
             }
         });
