@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.bootcss.com/vConsole/3.3.0/vconsole.min.js"></script>
+    <title>Document</title>
+</head>
+
+<style>
+    body {
+        padding: 0;
+        margin: 0;
+    }
+
+    #video-container {
+        position: relative;
+    }
+
+    #snap-container {
+        box-sizing: border-box;
+        position: absolute;
+        bottom: 0;
+        width: 100vw;
+        padding: 2vw;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.5);
+
+
+    }
+
+    #snap {
+        display: inline-block;
+        width: 5vw;
+        height: 5vw;
+        border-radius: 100%;
+        border: 2vw solid white;
+        background: gray;
+    }
+
+
+    #video {
+        width: 100vw;
+        height: 400/3vw;
+    }
+
+    #canvas-container {
+        opacity: 0;
+        height: 0;
+        overflow: hidden;
+    }
+
+    #img {
+        width: 100%;
+    }
+</style>
+
+<body>
+    <div id='video-container'>
+        <video id="video" autoplay playsinline="true" webkit-playsinline="true"></video>
+        <div id="snap-container">
+            <span id="snap"></span>
+        </div>
+    </div>
+    <img id='img' />
+    <div id='canvas-container'>
+        <canvas id="canvas"></canvas>
+    </div>
+
+</body>
+<script>
+    var vConsole = new VConsole();
+    // Grab elements, create settings, etc.
+
+    var screenWidth = screen.availWidth * window.devicePixelRatio
+    var ratio = 4 / 3
+    document.querySelector('#canvas').width = screenWidth
+    document.querySelector('#canvas').height = screenWidth * ratio
+    var video = document.getElementById('video');
+
+
+
+    // Get access to the camera!
+    function getUserMedia(constrains, success, error) {
+        console.log(navigator.getUserMedia)
+        console.log(navigator.webkitGetUserMedia)
+        console.log(navigator.mozGetUserMedia)
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            //最新标准API
+            return navigator.mediaDevices.getUserMedia(constrains).catch(error);
+        } else if (navigator.webkitGetUserMedia) {
+            //webkit内核浏览器
+            return navigator.webkitGetUserMedia(constrains).catch(error);
+        } else if (navigator.mozGetUserMedia) {
+            //Firefox浏览器
+            return navagator.mozGetUserMedia(constrains).catch(error);
+        } else if (navigator.getUserMedia) {
+            //旧版API
+            console.log('navigator.getUserMedia')
+            return new Promise(function (resolve, reject) {
+                getUserMedia.call(navigator, constraints, resolve, reject);
+            });
+        }
+    }
+
+    // if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    // Not adding `{ audio: true }` since we only want video now
+    getUserMedia({
+        video: {
+            facingMode:
+                "user" //前置
+            // { exact: "environment" } //后置
+        }
+    }).then(function (stream) {
+        //video.src = window.URL.createObjectURL(stream);
+        video.srcObject = stream;
+        video.play();
+    });
+    // } else {
+
+    //     alert('无法拿到权限')
+    // }
+
+    /* Legacy code below: getUserMedia
+    else if(navigator.getUserMedia) { // Standard
+        navigator.getUserMedia({ video: true }, function(stream) {
+            video.src = stream;
+            video.play();
+        }, errBack);
+    } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+        navigator.webkitGetUserMedia({ video: true }, function(stream){
+            video.src = window.webkitURL.createObjectURL(stream);
+            video.play();
+        }, errBack);
+    } else if(navigator.mozGetUserMedia) { // Mozilla-prefixed
+        navigator.mozGetUserMedia({ video: true }, function(stream){
+            video.srcObject = stream;
+            video.play();
+        }, errBack);
+    }
+    */
+    // Elements for taking the snapshot
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    var video = document.getElementById('video');
+
+    document.querySelector('#snap-container').addEventListener('click', function () {
+        video.play();
+    })
+
+    // Trigger photo take
+    document.getElementById("snap").addEventListener("click", function () {
+        context.drawImage(video, 0, 0, screenWidth, screenWidth * ratio);
+        var img = document.querySelector('#img');
+        img.src = canvas.toDataURL("image/png");
+    });
+</script>
+
+</html>
