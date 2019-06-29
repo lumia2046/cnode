@@ -176,8 +176,10 @@
     <input type="file" id="file" accept="image/*" capture="camera">
 
     <div id="fileBga"></div>
+    <div>
+        <img id="fileBg">
+    </div>
 
-    <img id="fileBg" style="display:none;">
 
 </body>
 <script>
@@ -213,42 +215,46 @@
                     context.fillText(text, 0, 0);
                     return target;
                 };
+                var img = new Image()
+                img.src = file
 
                 // watermark([file])
                 //     //开始打水印
                 //     .image(rotate)
                 //     .then(function (img) {
                 //         //防止多次拍摄,初始化预览图片
-                //         $('#fileBga').html('');
-                //         document.getElementById('fileBga').appendChild(img);
-                //         var iOSsrc = img.src;
-                //         lrz(iOSsrc, { width: '100%' })
-                //             .then(function (rst) {
-                //                 // 处理成功会执行
-                //                 $('#fileBg').attr('src', rst.base64);
-                //             })
-                //             .catch(function (err) {
-                //                 // 处理失败会执行
-                //                 console.log(err);
-                //             })
+                $('#fileBga').html('');
+                document.getElementById('fileBga').appendChild(img);
+                var iOSsrc = img.src;
+                lrz(iOSsrc, { width: '100%' })
+                    .then(function (rst) {
+                        // 处理成功会执行
+                        $('#fileBg').attr('src', rst.base64);
+                    })
+                    .catch(function (err) {
+                        // 处理失败会执行
+                        console.log(err);
+                    })
                 //     });
             } else {
                 // watermark([file])
                 //     //安卓打水印
                 //     .image(watermark.text.center('puzzle-idea', '200px 微软雅黑', '#fff', 0.5))
                 //     .then(function (img) {
-                //         $('#fileBga').html('');
-                //         document.getElementById('fileBga').appendChild(img);
-                //         var Androidsrc = img.src;
-                //         lrz(Androidsrc, { width: '100%' })
-                //             .then(function (rst) {
-                //                 // 处理成功会执行
-                //                 $('#fileBg').attr('src', rst.base64);
-                //             })
-                //             .catch(function (err) {
-                //                 // 处理失败会执行
-                //                 console.log(err);
-                //             })
+                var img = new Image()
+                img.src = file
+                $('#fileBga').html('');
+                document.getElementById('fileBga').appendChild(img);
+                var Androidsrc = img.src;
+                lrz(Androidsrc, { width: '100%' })
+                    .then(function (rst) {
+                        // 处理成功会执行
+                        $('#fileBg').attr('src', rst.base64);
+                    })
+                    .catch(function (err) {
+                        // 处理失败会执行
+                        console.log(err);
+                    })
                 //     });
             }
         });
