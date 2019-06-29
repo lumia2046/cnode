@@ -111,8 +111,8 @@
         navigator.mediaDevices.getUserMedia({
             video: {
                 facingMode:
-                    "user" //前置
-                // { exact: "environment" } //后置
+                   // "user" //前置
+                { exact: "environment" } //后置
             }
         }).then(function (stream) {
             //video.src = window.URL.createObjectURL(stream);
