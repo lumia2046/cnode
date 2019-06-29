@@ -84,6 +84,9 @@
 
     // Get access to the camera!
     function getUserMedia(constrains, success, error) {
+        console.log(navigator.getUserMedia)
+        console.log(navigator.webkitGetUserMedia)
+        console.log(navigator.mozGetUserMedia)
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             //最新标准API
             return navigator.mediaDevices.getUserMedia(constrains).catch(error);
@@ -95,7 +98,10 @@
             return navagator.mozGetUserMedia(constrains).catch(error);
         } else if (navigator.getUserMedia) {
             //旧版API
-            return navigator.getUserMedia(constrains).catch(error);
+            console.log('navigator.getUserMedia')
+            return new Promise(function (resolve, reject) {
+                getUserMedia.call(navigator, constraints, resolve, reject);
+            });
         }
     }
 
