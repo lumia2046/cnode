@@ -179,7 +179,7 @@
 
     <div id="fileBga"></div>
     <div>
-        <img id="fileBg">
+        <img id="fileBg" style="width:100%">
     </div>
 
 
@@ -261,15 +261,16 @@
                     $('#fileBga').html('');
                     document.getElementById('fileBga').appendChild(img);
                     var Androidsrc = img.src;
-                    lrz(Androidsrc, { width: '100%' })
-                        .then(function (rst) {
-                            // 处理成功会执行
-                            $('#fileBg').attr('src', rst.base64);
-                        })
-                        .catch(function (err) {
-                            // 处理失败会执行
-                            console.log(err);
-                        })
+                    $('#fileBg').attr('src', img.src);
+                    // lrz(Androidsrc, { width: '100%' })
+                    //     .then(function (rst) {
+                    //         // 处理成功会执行
+                    //         $('#fileBg').attr('src', rst.base64);
+                    //     })
+                    //     .catch(function (err) {
+                    //         // 处理失败会执行
+                    //         console.log(err);
+                    //     })
                 }
 
 
