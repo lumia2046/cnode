@@ -189,6 +189,7 @@
     document.querySelector('#file').addEventListener('change', function () {
         //监听input的change事件，存储用户拍摄的图片
         var file = this.files[0];
+        debugger
         EXIF.getData(file, function () {
             var orientation = EXIF.getTag(this, 'Orientation');
             //使用exif.js获取图片元数据
@@ -219,7 +220,7 @@
                     return target;
                 };
                 var img = new Image()
-                img.src = file
+                img.src = URL.createObjectURL(file)
 
                 // watermark([file])
                 //     //开始打水印
@@ -245,7 +246,7 @@
                 //     .image(watermark.text.center('puzzle-idea', '200px 微软雅黑', '#fff', 0.5))
                 //     .then(function (img) {
                 var img = new Image()
-                img.src = file
+                img.src = URL.createObjectURL(file)
                 $('#fileBga').html('');
                 document.getElementById('fileBga').appendChild(img);
                 var Androidsrc = img.src;
