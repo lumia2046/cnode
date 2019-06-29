@@ -93,7 +93,8 @@
             video.srcObject = stream;
             video.play();
         });
-    }
+    }else{
+        alert('无法拿到权限')
 
     /* Legacy code below: getUserMedia
     else if(navigator.getUserMedia) { // Standard
