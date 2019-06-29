@@ -57,7 +57,7 @@
 
 <body>
     <div id='video-container'>
-        <video id="video" autoplay></video>
+        <video id="video" autoplay playsinline="true" webkit-playsinline="true"></video>
         <div id="snap-container">
             <span id="snap"></span>
         </div>
@@ -75,13 +75,6 @@
     var ratio = 4 / 3
     document.querySelector('#canvas').width = screenWidth
     document.querySelector('#canvas').height = screenWidth * ratio
-
-
-
-
-
-
-
     var video = document.getElementById('video');
 
 
