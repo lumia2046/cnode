@@ -261,16 +261,15 @@
                     $('#fileBga').html('');
                     // document.getElementById('fileBga').appendChild(img);
                     var Androidsrc = img.src;
-                    $('#fileBg').attr('src', img.src);
-                    // lrz(Androidsrc, { width: '100%' })
-                    //     .then(function (rst) {
-                    //         // 处理成功会执行
-                    //         $('#fileBg').attr('src', rst.base64);
-                    //     })
-                    //     .catch(function (err) {
-                    //         // 处理失败会执行
-                    //         console.log(err);
-                    //     })
+                    lrz(Androidsrc, { width: '100%' })
+                        .then(function (rst) {
+                            // 处理成功会执行
+                            $('#fileBg').attr('src', rst.base64);
+                        })
+                        .catch(function (err) {
+                            // 处理失败会执行
+                            console.log(err);
+                        })
                 }
 
 
