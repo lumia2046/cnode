@@ -83,27 +83,39 @@
 
 
     // Get access to the camera!
-
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        // Not adding `{ audio: true }` since we only want video now
-        navigator.mediaDevices.getUserMedia({
-            video: {
-                facingMode:
-                    "user" //前置
-                // { exact: "environment" } //后置
-            }
-        }).then(function (stream) {
-            //video.src = window.URL.createObjectURL(stream);
-            video.srcObject = stream;
-            video.play();
-        });
-    } else {
-        console.log(window.navigator)
-        console.log(navigator)
-        console.log(navigator.mediaDevices)
-        console.log(navigator.mediaDevices.getUserMedia)
-        alert('无法拿到权限')
+    function getUserMedia(constrains, success, error) {
+        if (navigator.mediaDevices.getUserMedia) {
+            //最新标准API
+            navigator.mediaDevices.getUserMedia(constrains).then(success).catch(error);
+        } else if (navigator.webkitGetUserMedia) {
+            //webkit内核浏览器
+            navigator.webkitGetUserMedia(constrains).then(success).catch(error);
+        } else if (navigator.mozGetUserMedia) {
+            //Firefox浏览器
+            navagator.mozGetUserMedia(constrains).then(success).catch(error);
+        } else if (navigator.getUserMedia) {
+            //旧版API
+            navigator.getUserMedia(constrains).then(success).catch(error);
+        }
     }
+
+    // if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    // Not adding `{ audio: true }` since we only want video now
+    getUserMedia({
+        video: {
+            facingMode:
+                "user" //前置
+            // { exact: "environment" } //后置
+        }
+    }).then(function (stream) {
+        //video.src = window.URL.createObjectURL(stream);
+        video.srcObject = stream;
+        video.play();
+    });
+    // } else {
+
+    //     alert('无法拿到权限')
+    // }
 
     /* Legacy code below: getUserMedia
     else if(navigator.getUserMedia) { // Standard
