@@ -167,8 +167,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdn.bootcss.com/vConsole/3.3.0/vconsole.min.js"></script>
-    <script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
     <script src="./dist/lrz.bundle.js"></script>
     <title>Document</title>
 </head>
@@ -176,8 +174,6 @@
 <body>
 
     <input type="file" id="file" accept="image/*" capture="camera">
-
-    <div id="fileBga"></div>
     <div>
         <img id="fileBg" style="width:100%">
     </div>
@@ -186,96 +182,25 @@
 </body>
 <script>
     var vConsole = new VConsole();
-
     document.querySelector('#file').addEventListener('change', function () {
         //监听input的change事件，存储用户拍摄的图片
         var file = this.files[0];
+        var img = new Image()
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (e) {
+            img.src = e.target.result
+            lrz(img.src, { width: '100%' })
+                .then(function (rst) {
+                    // 处理成功会执行
+                    document.querySelector('#fileBg').src = rst.base64
+                })
+                .catch(function (err) {
+                    // 处理失败会执行
+                    console.log(err);
+                })
+        }
 
-
-        EXIF.getData(file, function () {
-            var orientation = EXIF.getTag(this, 'Orientation');
-            //使用exif.js获取图片元数据
-            if (orientation == 6) {
-                //iOS系统拍摄图片上传的默认方向为home键在右的横屏模式
-                //通过exif.js获取的图片元数据的orientation值为6，以下兼容iOS
-                document.getElementById('fileBga').style.transform = 'rotate(90deg)';
-                var h = $('#fileBga').height();
-                var w = $('#fileBga').width();
-                $('#fileBga').height(w);
-                $('#fileBga').width(h);
-                //旋转放置预览图片的元素，并将宽高值交换
-                var rotate = function (target) {
-                    //因为图片被旋转，所以调用插件其中一种canvas加水印的方法,方便打横置的水印
-                    var context = target.getContext('2d');
-                    var text = 'puzzle-idea';
-                    var metrics = context.measureText(text);
-                    var x = (target.width / 2) - (metrics.width + 24);
-                    var y = (target.height / 2) + 48 * 2;
-
-                    context.translate(x, y);
-                    context.globalAlpha = 0.5;
-                    context.fillStyle = '#fff';
-                    context.font = '200px 微软雅黑';
-                    //旋转水印
-                    context.rotate(-90 * Math.PI / 180);
-                    context.fillText(text, 0, 0);
-                    return target;
-                };
-                var img = new Image()
-                var reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = function (e) {
-                    img.src = e.target.result
-                    // watermark([file])
-                    //     //开始打水印
-                    //     .image(rotate)
-                    //     .then(function (img) {
-                    //         //防止多次拍摄,初始化预览图片
-                    $('#fileBga').html('');
-                    // document.getElementById('fileBga').appendChild(img);
-                    var iOSsrc = img.src;
-                    lrz(iOSsrc, { width: '100%' })
-                        .then(function (rst) {
-                            // 处理成功会执行
-                            $('#fileBg').attr('src', rst.base64);
-                        })
-                        .catch(function (err) {
-                            // 处理失败会执行
-                            console.log(err);
-                        })
-                    //     });
-                };
-
-
-
-            } else {
-                // watermark([file])
-                //     //安卓打水印
-                //     .image(watermark.text.center('puzzle-idea', '200px 微软雅黑', '#fff', 0.5))
-                //     .then(function (img) {
-                var img = new Image()
-                var reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = function (e) {
-                    img.src = e.target.result
-                    $('#fileBga').html('');
-                    // document.getElementById('fileBga').appendChild(img);
-                    var Androidsrc = img.src;
-                    lrz(Androidsrc, { width: '100%' })
-                        .then(function (rst) {
-                            // 处理成功会执行
-                            $('#fileBg').attr('src', rst.base64);
-                        })
-                        .catch(function (err) {
-                            // 处理失败会执行
-                            console.log(err);
-                        })
-                }
-
-
-                //     });
-            }
-        });
     })
 </script>
 
