@@ -126,22 +126,21 @@
 
 <body>
     <div style="position: fixed;width: 100vw;height: 100vh;overflow: hidden;">
-        <img src='bg.png' id='bg' style="position: absolute;top:50%;left:50%;transform:translate(-50%,-50%)" />
+        <img src='bg.png' id='bg'
+            style="position: absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity: 0;;" />
     </div>
-
-    <script>
-        var vConsole = new VConsole();
-        const bg = document.querySelector('#bg')
-        if (window.innerHeight / window.innerWidth > bg.offsetHeight / bg.offsetWidth) {
-            bg.style.height = '100%'
-        } else {
-            bg.style.width = '100%'
-        }
-
-    </script>
-    <script type="text/javascript" src="main.388a9869786cd1214ecd.js?388a9869786cd1214ecd">
-    </script>
+    <script type="text/javascript" src="main.53ad4e0adf26d08bacbf.js?53ad4e0adf26d08bacbf"></script>
 </body>
+<script>
+    var vConsole = new VConsole();
+    const bg = document.querySelector('#bg')
+    bg.style.opacity = 1
+    if (window.innerHeight / window.innerWidth > bg.offsetHeight / bg.offsetWidth) {
+        bg.style.height = '100%'
+    } else {
+        bg.style.width = '100%'
+    }
 
+</script>
 
 </html>
